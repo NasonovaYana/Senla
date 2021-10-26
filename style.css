@@ -13,7 +13,7 @@ body{
 .menu{
     margin-top: 0;
     margin-bottom: 0;
-    margin-left: 932px;
+    text-align: right;
 }
 .menu li{
     margin-top: 40px;
@@ -101,7 +101,72 @@ input{
     font-family: montserrat; 
 }
 
-input[type=button]{
+/*input[type=text], input[type=tel],input[type=password]*/
+input{
+    height: 20px;
+    width: 150px;
+    font-family: Montserrat;
+    color: #464243;
+    font-size: 14px;
+    appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid #4985FF;
+}
+input[type=range]{
+    border-radius: 10px;
+    color: red;
+}
+input[type=image]{
+   border: none;
+    width: auto;
+    color:aqua; 
+}
+input[type=radio]{
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+}
+input[type=file]{
+    display: none;
+}
+.file{
+    border: 1px solid #4985FF;
+    border-radius: 14px;
+    padding: 8px 18px;
+    color: #4985FF;
+}
+.file:active{
+    background-color: #999999;
+}
+/*input[type=text]:focus,input[type=tel]:focus,input[type=password]:focus,input[type=email]:focus,input[type=url]:focus,input[type=search]:focus*/
+input:focus{
+    appearance: none;
+    outline: 0;
+    outline-offset: 0;
+    background-color: #999999;
+}
+input[type=radio]:active{
+    background-color: #4985FF;
+}
+input[type=radio]:focus{
+    background-color: #4985FF;
+}
+input[type=range]:focus{
+    background-color: white;
+}
+input[type=range]:active{
+    background-color: #999999;
+}
+
+input[type=password]:focus{
+    background-color: white;
+    color: #4985FF;
+    font-size: 16px;
+    font-weight: 800;
+}
+input[type=button],input[type=reset],input[type=submit]{
     font-size: 16px;
     color: white;
     border: none;
@@ -111,11 +176,47 @@ input[type=button]{
     width: 200px;
     height: 50px;
 }
-input[type=button]:active{
+input[type=button]:active,input[type=reset]:active,input[type=submit]:active{
     background-color: #2D6FF5;
     width: 200px;
 }
-/*footer table*/
+input[type=checkbox]{
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background-color:white;
+    border: 1px solid #646365;
+    border-radius: 2px;
+
+}
+input[type=checkbox]:active{
+    background-color:#999999;
+}
+input[type=checkbox]:checked{
+    background-color: #4985FF;
+    border: 1px solid #999999;
+}
+input[type=image]:focus{
+    background-color: white;
+}
+select{
+    outline: none;
+    width: 50px;
+    height: 20px;
+    color:#999999;
+    font-family: montserrat;
+    font-size: 14px;
+}
+textarea{
+    border: 1px solid #4985FF;
+    color:#999999;
+    font-family: montserrat;
+    font-size: 14px;
+}
+textarea:focus{
+    outline: none;
+}
+    /*footer table*/
 .footer{
     background-color: #E0E0E0;
 }
@@ -140,4 +241,12 @@ th{
     font-weight: 600;
     font-size: 16px;
     height: 70px;
+}
+.input{
+    border-spacing: 0;
+}
+.input td{
+    border: 0.5px solid gray;
+    height: 70px;
+    text-align: center;
 }
