@@ -10,7 +10,8 @@ echo "Hello,world<br><br>";
 
 //Именование переменных
 $channelName = '';
-$fabricator = '';
+// todo ИСПРАВЛЕНО не очень понятно, что это адрес
+$fabricatorAddress = '';
 $carColor = '';
 $waterT = '';
 $mobileModel = '';
@@ -98,15 +99,17 @@ echo "<br>$arr[0]<br>$arr[1]<br>$arr[2]<br>";
 $arr = ['a', 'b', 'c', 'd'];
 echo "$arr[0]+$arr[1] $arr[2]+$arr[3]<br>";
 
-$arr[0] = 1;
-$arr[1] = 2;
-$arr[2] = 3;
-$arr[3] = 4;
-$arr[4] = 5;
+// todo ИСПРАВЛЕНО Задавать индексы явно необязательно
+$arr[] = 1;
+$arr[] = 2;
+$arr[] = 3;
+$arr[] = 4;
+$arr[] = 5;
 
 unset($arr);
 $arr = ['a' => 1, 'b' => 2, 'c' => 3];
-echo "$arr[c]<br>";
+//todo ИСПРАВЛЕНО некорректно указан ключ
+echo $arr['c'] . "<br>";
 
 echo $arr['a'] + $arr['b'] + $arr['c'] . '<br>';
 
@@ -243,13 +246,13 @@ if ($a > 0 and $a < 5) {
     echo 'Неверно<br>';
 }
 
+// todo ИСПРАВЛЕНО можно вывести $a уже после условия
 if ($a == 0 or $a == 2) {
     $a += 7;
-    echo $a . '<br>';
 } else {
     $a /= 10;
-    echo $a . '<br>';
 }
+echo $a . '<br>';
 
 if ($a <= 1 and $b >= 3) {
     echo $a + $b . '<br>';
@@ -286,19 +289,21 @@ echo $result . '<br>';
 echo '<br><br>';
 echo '//Задачи<br><br>';
 
+// todo ИСПРАВЛЕНО как можно сократить условия?
 $day = 20;
 if ($day >= 1 and $day < 10) {
     echo 'Первая<br>';
-} elseif ($day >= 10 and $day < 20) {
+} elseif ($day < 20) {
     echo 'Вторая<br>';
-} elseif ($day >= 20 and $day < 30) {
+} elseif ($day < 30) {
     echo 'Третья<br>';
-} elseif ($day >= 30) {
+} elseif ($day <= 31) {
     echo 'Четвертая<br>';
 } else {
     echo 'Error<br>';
 }
 
+// todo ИСПРАВЛЕНО лучше указывть однозначные условия, ну и можно подсократить
 $month = 8;
 if ($month >= 1 and $month <= 2 or $month == 12) {
     echo 'Зима<br>';
@@ -312,6 +317,7 @@ if ($month >= 1 and $month <= 2 or $month == 12) {
     echo 'Error<br>';
 }
 
+
 if ($month <= 12 and $month >= 1) {
     if ($month > 11) {
         echo 'Зима<br>';
@@ -321,10 +327,14 @@ if ($month <= 12 and $month >= 1) {
         echo 'Лето<br>';
     } elseif ($month >= 3) {
         echo 'Весна<br>';
-    } else{
+    } else {
         echo 'Зима<br>';
-    }}
+    }
+}else {
+    echo 'Error<br>';
+}
 
+// todo ИСПРАВЛЕНО условие не работае
 $year = 2000;
 if (($year % 4 == 0) and ($year % 100 != 0)) {
     echo 'Високосный<br>';
@@ -391,7 +401,7 @@ foreach ($arr as $key => $elem) {
 }
 
 //for, while
-/*echo '<br><br>';
+echo '<br><br>';
 echo '//for, while<br><br>';
 
 
@@ -427,8 +437,9 @@ for ($i = 9; $i >= 1; $i--) {
 }
 echo $str . '<br><br>';
 
-$str = '';
-for ($i = 1,$str='-'; $i <= 9; $i++) {
+//todo ИСПРАВЛЕНО по сути $str объявляется дважды, т.е. $str = ''; вообще использоваться не будет
+$str = '-';
+for ($i = 1; $i <= 9; $i++) {
     $str .= "$i-";
 }
 echo $str . '<br><br>';
@@ -444,7 +455,7 @@ for ($i = 1; $i <= 6; $i++, $str .= 'xx') {
     echo $str . '<br>';
 }
 echo '<br><br>';
-*/
+
 
 $i = 1;
 while ($i <= 100) {
@@ -470,8 +481,8 @@ echo '<br><br>';
 $str = '';
 $i = 1;
 while ($i <= 9) {
-    $str .= $i;
-    $i++;
+    // todo ИСПРАВЛЕНО можно в одну строку записать
+    $str .= $i++;
 }
 echo $str . '<br><br>';
 
@@ -547,6 +558,7 @@ echo '<br><br>';
 unset($arr);
 $arr = ['10', '20', '30', '50', '235', '3000'];
 foreach ($arr as $elem) {
+    // todo лучше завести переменную равную $elem[0]
     if ($elem[0] == '1' or $elem[0] == '2' or $elem[0] == '5') {
         echo "$elem<br>";
     };
@@ -563,6 +575,7 @@ echo '<br><br>';
 unset($arr);
 $arr = [1 => 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'субота', 'воскресенье'];
 foreach ($arr as $key => $elem) {
+    // todo можно упростить
     if ($key == 6 or $key == 7) {
         echo "<b>$elem</b><br>";
     } else {
@@ -582,8 +595,9 @@ foreach ($arr as $key => $elem) {
 echo '<br><br>';
 
 unset($arr);
+// todo ИСПРАВЛЕНО ключ не нужно задавать явно, если в этом нет особой необходимости
 for ($i = 1; $i <= 100; $i++) {
-    $arr[$i] = $i;
+    $arr[] = $i;
 }
 unset($arr);
 $i = 0;
@@ -612,7 +626,12 @@ echo $k . '<br>';
 unset($arr);
 $arr = [1, 3, 3, 4, 5, 6, 7, 8, 9];
 $sum = 0;
-for ($i = 0; $sum < 10; $i++) {
-    $sum += $arr[$i];
+// todo ИСПРАВЛЕНО сделай через foreach
+$i=0;
+foreach ($arr as $elem){
+    while($sum<10){
+        $sum += $arr[$i];
+        $i++;
+    }
 }
 echo "$i";
