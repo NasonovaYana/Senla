@@ -13,6 +13,7 @@ $time = $timeNow - $timeStart;
 echo $time.'<br>';
 //Найдите количество целых часов, прошедших с 7:23:48 текущего дня до настоящего момента времени.
 $timeStart = mktime(7,23,48);
+// todo это опечатка $timeStart.'<br>'?
 $time = (int)(($timeNow - $timeStart.'<br>')/3600);
 echo $time.'<br><br>';
 
@@ -39,14 +40,15 @@ $month =[1=>'январь','февраль','март','апрель','май','
 $currentMonth = (int)date('n');
 echo $month[$currentMonth].'<br>';
 //Найдите количество дней в текущем месяце. Скрипт должен работать независимо от месяца, в котором он запущен.
-$daysCurrentMonth = cal_days_in_month(CAL_GREGORIAN,11,2021);
-echo $daysCurrentMonth.'<br>';
-//Задайте год (4 цифры), а скрипт определяет високосный ли год.
-$year = 2024;
-$daysFeb = cal_days_in_month(CAL_GREGORIAN,2,$year);
-if ($daysFeb==29){
-    echo $year.' год високосный'.'<br>';
-}else{echo $year.' год не високосный'.'<br>';}
+// todo cal_days_in_month - это функция из дополнительного модуля php. Реши эту и следующую задачу стнадартными встроенными функциями
+//$daysCurrentMonth = cal_days_in_month(CAL_GREGORIAN,11,2021);
+//echo $daysCurrentMonth.'<br>';
+////Задайте год (4 цифры), а скрипт определяет високосный ли год.
+//$year = 2024;
+//$daysFeb = cal_days_in_month(CAL_GREGORIAN,2,$year);
+//if ($daysFeb==29){
+//    echo $year.' год високосный'.'<br>';
+//}else{echo $year.' год не високосный'.'<br>';}
 //Задайте дату в формате '31.12.2025'. С помощью функций mktime и explode переведите эту дату в формат timestamp. Узнайте день недели (словом) за введенную дату.
 $str = '31.12.2025';
 $arr = explode('.',$str);
@@ -59,6 +61,7 @@ unset($arr);
 $arr = explode('-',$str);
 $time = mktime(0,0,0,$arr[1],$arr[2],$arr[0]);
 $wd = (int)date('N', $time);
+// todo нужен месяц
 echo '31.12.2025 - '.$week[$wd].'<br><br>';
 
 //Сравнение дат:
@@ -78,6 +81,8 @@ $time = strtotime($date);
 echo date('j-m-Y',$time).'<br><br>';
 //Прибавление и отнимание дат (date_create, date_modify, date_format):
 //В переменной $date лежит дата в формате '2025-12-31'. Прибавьте к этой дате 2 дня, 1 месяц и 3 дня, 1 год. Отнимите от этой даты 3 дня.
+
+// todo Выведи, даты которые должны были получиться в задании на экран.
 $date = date_create('2025-12-31');
 $date= date_modify($date, '+2 days');
 //var_dump($date);
@@ -117,6 +122,7 @@ if (isset($_POST['year'])) {
 echo '<br>';
 //Узнайте какой день недели был 100 дней назад.
 $date = date('Y-m-j',$time);
+// todo посмотри, нужно ли что передавать в date_create, чтобы получить текущую дату
 $day = date_create($date);
 $day = date_modify($day,'-100 days');
 $wd = date_format($day, 'N');
