@@ -306,3 +306,4 @@ $arr = [1, 2, 4, 5, 5];
 $arr = array_unique($arr);
 rsort($arr);
 echo "Второй по величине элемент $arr[1]<br>";
+
