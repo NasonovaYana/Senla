@@ -91,10 +91,10 @@ $result = array_splice($arr, 3, 0, ['a', 'b', 'c']);
 unset($result);
 unset($arr);
 $arr = [1, 2, 3, 4, 5];
-// todo зачем нужны переменные $result, $result2, $result3?
-$result = array_splice($arr, 1, 0, ['a', 'b']);
-$result2 = array_splice($arr, 5, 0, ['c']);
-$result3 = array_splice($arr, 7, 0, ['e']);
+// todo ИСПРАВЛЕНО зачем нужны переменные $result, $result2, $result3?
+array_splice($arr, 1, 0, ['a', 'b']);
+array_splice($arr, 5, 0, ['c']);
+array_splice($arr, 7, 0, ['e']);
 //var_dump($arr);
 
 //Работа с array_keys, array_values, array_combine:
@@ -129,8 +129,8 @@ $arr = ['a', '-', 'b', '-', 'c', '-', 'd'];
 $num = array_search('-', $arr);
 echo $num . '<br>';
 //Дан массив ['a', '-', 'b', '-', 'c', '-', 'd']. Найдите позицию первого элемента '-' и удалите его с помощью функции array_splice.
-// todo вторым аргументов в array_splice нужно передать результат работы array_search, а не произвольное значение
-$res = array_splice($arr, 1, 1);
+// todo ИСПРАВЛЕНО вторым аргументов в array_splice нужно передать результат работы array_search, а не произвольное значение
+$res = array_splice($arr, $num, 1);
 //var_dump($arr);
 
 //Работа с array_replace:
@@ -221,7 +221,8 @@ $arr = array_unique($arr);
 //Дан массив с элементами 1, 2, 3, 4, 5. Выведите на экран его первый и последний элемент, причем так, чтобы в исходном массиве они исчезли.
 unset($arr);
 $arr = [1, 2, 3, 4, 5];
-// todo а где извлечение первого элемента?
+// todo ИСПРАВЛЕНО а где извлечение первого элемента?
+echo array_shift($arr) . '<br>';
 echo array_pop($arr) . '<br>';
 //Дан массив с элементами 1, 2, 3, 4, 5. Добавьте ему в начало элемент 0, а в конец - элемент 6.
 unset($arr);
@@ -283,8 +284,8 @@ $arr2 = [3, 4, 5, 6, 7];
 $arrInters = array_intersect($arr1, $arr2);
 //var_dump($arrInters);
 //Дан массив с элементами 1, 2, 3, 4, 5 и массив с элементами 3, 4, 5, 6, 7. Запишите в новый массив элементы, которые не присутствуют в обоих массивах одновременно.
-$arrDiff = array_diff($arr1, $arr2);
-// todo в $arrDiff не хватает 6, 7
+$arrDiff = array_merge(array_diff($arr1, $arr2),array_diff($arr2, $arr1));
+// todo ИСПРАВЛЕНО в $arrDiff не хватает 6, 7
 //var_dump($arrDiff);
 
 //Доп задачи:
