@@ -7,7 +7,7 @@ echo "task = $task<br><br>";
 // todo переписать на нормальную интеграцию php и html
 //Задачи на формы:
 //Спросите имя пользователя с помощью формы. Результат запишите в переменную $name. Выведите на экран фразу 'Привет, %Имя%'.
-$forms = include './form1.phtml';
+$forms = include './forms_for_get.phtml';
 echo $forms['form1'];
 if (isset($_GET['name'])) {
     $name = $_GET['name'];
