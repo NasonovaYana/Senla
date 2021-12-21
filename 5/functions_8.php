@@ -204,7 +204,90 @@ if (isset($_POST['firstNum']) and isset($_POST['secondNum']) and isset($_POST['t
     }
 }
 //Дан инпут и кнопка. В инпут вводится число. По нажатию на кнопку выведите список делителей этого числа.
+echo $forms['form13'];
+if (isset($_POST['numToDenominators'])) {
+    $numToDenominators = (int)$_POST['numToDenominators'];
+    echo "Делители числа $numToDenominators: <br>";
+    for ($i = $numToDenominators - 1; $i > 1; $i--) {
+        if ($numToDenominators % $i === 0) {
+            echo $i . '<br>';
+        }
+    }
+}
 //Дан инпут и кнопка. В инпут вводится число. По нажатию на кнопку разложите число на простые множители.
+echo $forms['form14'];
+if (isset($_POST['numToDecomp'])) {
+    $numToDecomp = $_POST['numToDecomp'];
+    $decompParts = [];
+    echo "$numToDecomp= ";
+    for ($i = 2; $i <= $numToDecomp; $i++) {
+        if (($numToDecomp % $i) == 0) {
+            $decompParts[] = $i;
+            $numToDecomp /= $i;
+            $i--;
+            if ($numToDecomp < 2) break;
+        }
+    }
+    echo implode('*', $decompParts);
+
+}
 //Даны 2 инпута и кнопка. В инпуты вводятся числа. По нажатию на кнопку выведите наибольший общий делитель этих двух чисел.
+function findDenominators($num)
+{
+    $arrDenom = [];
+    for ($i = $num - 1; $i > 1; $i--) {
+        if ($num % $i === 0) {
+            array_push($arrDenom, $i);
+        }
+    }
+    return $arrDenom;
+}
+
+echo $forms['form15'];
+if (isset($_POST['firstNODnum']) and isset($_POST['secondNODnum'])) {
+    $firstNODnum = (int)$_POST['firstNODnum'];
+    $secondNODnum = (int)$_POST['secondNODnum'];
+    $firstArr = findDenominators($firstNODnum);
+    $secondArr = findDenominators($secondNODnum);
+    foreach ($firstArr as $elemFirst) {
+        if (!$findNOD) {
+            foreach ($secondArr as $elemSecond) {
+                if ($elemFirst === $elemSecond) {
+                    echo 'НОД = ' . $elemFirst . '<br><br>';
+                    $findNOD = true;
+                }
+            }
+        } else {
+            break;
+        }
+    }
+}
 //Даны 2 инпута и кнопка. В инпуты вводятся числа. По нажатию на кнопку выведите наименьшее число, которое делится и на одно, и на второе из введенных чисел.
+function findNOK($first, $second)
+{
+    $nok = 0;
+    $findNok = false;
+    while (!$findNok) {
+        $nok++;
+        if (($nok % $first === 0) and ($nok % $second === 0)) {
+            $findNok = true;
+        }
+    }
+    return $nok;
+}
+
+echo $forms['form16'];
+if (isset($_POST['firstNOKnum']) and isset($_POST['secondNOKnum'])) {
+    $firstNOKnum = (int)$_POST['firstNOKnum'];
+    $secondNOKnum = (int)$_POST['secondNOKnum'];
+    echo 'НОК = ' . findNOK($firstNOKnum, $secondNOKnum);
+}
 //Даны 3 селекта и кнопка. Первый селект - это дни от 1 до 31, второй селект - это месяцы от января до декабря, а третий - это годы от 1990 до 2025. С помощью этих селектов можно выбрать дату. По нажатию на кнопку выведите на экран день недели, соответствующий этой дате, например, 'воскресенье'.
+echo $forms['form17'];
+if (isset($_POST['day']) and isset($_POST['year']) and isset($_POST['month'])) {
+    $day = (int)$_POST['day'];
+    $month = (int)$_POST['month'];
+    $yearSelect = (int)$_POST['year'];
+    $wdSelect = date('N', mktime(0, 0, 0, $month, $day, $yearSelect));
+    echo $week[$wdSelect];
+}
