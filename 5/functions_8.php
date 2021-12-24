@@ -168,8 +168,92 @@ if (isset($_POST['translett']) and isset($_POST['strToTranslettAfterChoose'])) {
     echo $strTr . '<br><br>';
 }
 //Дан массив с вопросами и правильными ответами. Реализуйте тест: выведите на экран все вопросы, под каждым инпут. Пользователь читает вопрос, пишет свой ответ в инпут. Когда вопросы заканчиваются - он жмет на кнопку, страница обновляется и вместо инпутов под вопросами появляется сообщение вида: 'ваш ответ: ... верно!' или 'ваш ответ: ... неверно! Правильный ответ: ...'. Правильно отвеченные вопросы должны гореть зеленым цветом, а неправильно - красным.
+$qAndA = ['2+3' => 5, '2*3' => 6];
+$arrQw = array_keys($qAndA);
+$arrAns = array_values($qAndA);
+if (!isset($_POST['ans1']) and !isset($_POST['ans2'])) {
+
+    $i = 0;
+    foreach ($arrQw as $elem) {
+        echo "<form method='post'>";
+        $i++;
+        $index = 'ans' . $i;
+        echo $elem . "<input name='$index'>";
+    }
+    echo "<input type='submit'></form>";
+} else {
+    $ans1 = $_POST['ans1'];
+    $ans2 = $_POST['ans2'];
+    $usersAns=[$ans1,$ans2];
+    $i=0;
+    foreach ($qAndA as $key => $elem) {
+        echo $key.'=';
+        echo $usersAns[$i];
+        if ($usersAns[$i]==$elem){
+            echo $forms['right'].'<br>';
+        }
+        else{
+            echo $forms['wrong'].'<br>';
+        }
+        $i++;
+    }
+}
 //Модифицируем предыдущую задачу: пусть теперь тест показывает варианты ответов и радиокнопочки. Пользователь должен выбрать один и вариантов.
+if (!isset($_POST['chooseRadioNum1']) and !isset($_POST['chooseRadioNum2'])) {
+    echo "<form method='post'>";
+    $i = 0;
+    foreach ($arrQw as $elem) {
+        $i++;
+        $index = 'chooseRadioNum' . $i;
+        echo $elem .'<br>'.$forms[$index];
+    }
+    echo "<input type='submit'></form>";
+} else {
+    $ans1 = $_POST['chooseRadioNum1'];
+    $ans2 = $_POST['chooseRadioNum2'];
+    $usersAns=[$ans1,$ans2];
+    $i=0;
+    foreach ($qAndA as $key => $elem) {
+        echo $key.'=';
+        echo $usersAns[$i];
+        if ($usersAns[$i]==$elem){
+            echo $forms['right'].'<br>';
+        }
+        else{
+            echo $forms['wrong'].'<br>';
+        }
+        $i++;
+    }
+}
 //Модифицируем предыдущую задачу: пусть теперь на один вопрос может быть несколько правильных ответов. Пользователь должен отметить один или несколько чекбоксов.
+$qwForSeveralAns = ['Какие числа чётные?' => [4,6], 'Какие числа больше 10?' => [15]];
+$arrQwCheck = array_keys($qwForSeveralAns);
+$arrAnsCheck = array_values($qwForSeveralAns);
+if (!isset($_POST['chooseCheckNum1']) and !isset($_POST['chooseCheckNum2'])) {
+    echo "<form method='post'>";
+    $i = 0;
+    foreach ($arrQwCheck as $elem) {
+        $i++;
+        $index = 'chooseCheckNum' . $i;
+        echo $elem .'<br>'.$forms[$index];
+    }
+    echo "<input type='submit'></form>";
+} else {
+    $ans1 = $_POST['chooseCheckNum1'];
+    $ans2 = $_POST['chooseCheckNum2'];
+    $usersAnsCheck=[$ans1,$ans2];
+    $i=0;
+    foreach ($qwForSeveralAns as $key => $elem) {
+        echo $key.' ';
+        if ($usersAnsCheck[$i]==$elem){
+            echo $forms['right'].'<br>';
+        }
+        else{
+            echo $forms['wrong'].'<br>';
+        }
+        $i++;
+    }
+}
 //Напишите скрипт, который будет находить корни квадратного уравнения. Для этого сделайте 3 инпута, в которые будут вводиться коэффициенты уравнения.
 echo $forms['form11'];
     $a = $_POST['a'];
