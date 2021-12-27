@@ -86,14 +86,10 @@ var_dump($res);
 echo '<br>';
 //Дан массив с числами. Запишите в новый массив только те числа, которые больше нуля и меньше 10-ти. Для этого используйте вспомогательную функцию isNumberInRange из предыдущей задачи.
 $array = [12, 13, 15, 6, 10, 1, -3, 23, -14];
-// todo 1. нужно в новый массив записать
-// todo 2. реши с помощью встроенной в php функции array_filter
-foreach ($array as $key => $elem) {
-    if (!isNumberInRange($elem)) {
-        unset($array[$key]);
-    }
-}
-var_dump($array);
+// todo 1. ИСПРАВЛЕНО нужно в новый массив записать
+// todo 2. ИСПРАВЛЕНО реши с помощью встроенной в php функции array_filter
+$arrayResult = array_filter($array, 'isNumberInRange');
+var_dump($arrayResult);
 echo '<br>';
 //Сделайте функцию getDigitsSum (digit - это цифра), которая параметром принимает целое число и возвращает сумму его цифр.
 function getDigitsSum($digit)
@@ -106,12 +102,18 @@ function getDigitsSum($digit)
 $sum = getDigitsSum(123);
 echo $sum . '<br><br>';
 //Найдите все года от 1 до 2021, сумма цифр которых равна 13. Для этого используйте вспомогательную функцию getDigitsSum из предыдущей задачи.
-// todo тоже попробуй с помощью array_filter решить
-for ($i = 1; $i < 2022; $i++) {
-    if (getDigitsSum($i) === 13) {
-        //echo $i.'<br>';
+// todo ИСПРАВЛЕНО тоже попробуй с помощью array_filter решить
+function checkSum($a){
+    $res=false;
+    if(getDigitsSum($a)===13){
+        $res=true;
     }
+    return $res;
 }
+
+$arrYears =range(1,2021);
+$arrYears = array_filter($arrYears,'checkSum');
+var_dump($arrYears);
 echo '<br><br>';
 //Сделайте функцию getDivisors, которая параметром принимает число и возвращает массив его делителей (чисел, на которое делится данное число).
 // todo 1. что будет если не попадем в условие $num % $i === 0?
