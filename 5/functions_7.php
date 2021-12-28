@@ -29,7 +29,7 @@ $arr = [[1, 2, 3], [4, 5], [6]];
 $sum = sumArray($arr);
 var_dump($sum);
 
-//Сделайте функцию принимающую трехмерный массив с числами, например [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]. Найдите сумму элементов этого массива. Массив, конечно же, может быть произвольным.
+//Сделайте функцию принимающую трехмерный массив с числами, например [2, [[1, 2], 1, [3, 4]], [[5, 6], [7, 8]]]. Найдите сумму элементов этого массива. Массив, конечно же, может быть произвольным.
 // todo ПРИНЯТО обсудить рекурсивное решение
 function sumArrayDimens($arr)
 {
@@ -111,7 +111,7 @@ function checkSum($a){
     return $res;
 }
 
-$arrYears =range(1,2021);
+$arrYears = range(1,2021);
 $arrYears = array_filter($arrYears,'checkSum');
 var_dump($arrYears);
 echo '<br><br>';
@@ -120,12 +120,16 @@ echo '<br><br>';
 // todo 2. тоже реши с помощью array_filter, подсказка: для внедрения внешней переменной в колл бэк функцию, используется ключевое слово use.
 function getDivisors($num)
 {
-    for ($i = 1; $i < $num; $i++) {
-        if ($num % $i === 0) {
-            $arr[] = $i;
-        }
-    }
-    return $arr;
+    $arr =  range(1,ceil($num / 2));
+
+    return array_filter($arr, fn ($item) => ($num % $item === 0));
+
+//    for ($i = 1; $i < $num; $i++) {
+//        if ($num % $i === 0) {
+//            $arr[] = $i;
+//        }
+//    }
+//    return $arr;
 }
 
 $arrDiv = getDivisors(15);
@@ -156,16 +160,43 @@ function sumArr($arr)
 
 // todo у меня здесь все виснет
 // todo зачем $i < 10001 (чтобы проверить все числа в диапазоне из условия) ?
-for ($i = 2; $i < 10001; $i++) {
-    unset($a1);
-    $a1 = getDivisors($i);
-    for ($j = 2; $j < $i; $j++) {
-        unset($a2);
-        $a2 = getDivisors($j);
-        if (sumArr($a1) == $j and sumArr($a2) == $i) {
-            echo "$i - $j<br>";
-        }
+//for ($i = 2; $i < 10001; $i++) {
+//    unset($a1);
+//    $a1 = getDivisors($i);
+//    for ($j = 2; $j < $i; $j++) {
+//        unset($a2);
+//        $a2 = getDivisors($j);
+//        if (sumArr($a1) == $j and sumArr($a2) == $i) {
+//            echo "$i - $j<br>";
+//        }
+//    }
+//}
+
+function getAmicableNumbers($numbers) {
+    // создаем массив, где ключ - число, а значение - сумма его делителей
+    $numbersDivisors = [];
+    $amicableNumbers = [];
+    for ($i = 2; $i <= $numbers; $i++) {
+        $divisors = getDivisors($i);
+        $numbersDivisors[$i] = array_sum($divisors);
     }
+
+    // проходим по массиву $numbersDivisors и ищем ключи, равные значениям и проверяем, что значения найденных ключей равны текущему ключу (это и будут дружественные числа)
+//     foreach ($numbersDivisors as $number => $sumDivisors) {
+//         if (array_key_exists($sumDivisors, $numbersDivisors) && $number === $numbersDivisors[$sumDivisors] && $number !==$sumDivisors) {
+//             // ключ
+//             $amicableNumbers[$number] = $sumDivisors;
+//         }
+//     }
+//
+//     return $amicableNumbers;
+
+    //тоже самое но компактнее
+    return array_filter(
+        $numbersDivisors,
+        fn ($sumDivisors, $number) => (array_key_exists($sumDivisors, $numbersDivisors) && $number === $numbersDivisors[$sumDivisors] && $number !==$sumDivisors),
+        ARRAY_FILTER_USE_BOTH
+    );
 }
 
 
