@@ -54,6 +54,7 @@ function simpleNum($num)
         if ($num % $i === 0) {
             $result = true;
             break;
+            // todo else не нужен
         } else {
             $result = false;
         }
