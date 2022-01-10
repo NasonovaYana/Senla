@@ -1,5 +1,4 @@
 <?php
-//test с текстом и old, dir1 с text и dir2 пустая, test1 И 2 в корне, image, dirr папка, папка old, count с нулём
 //Чтение файла с помощью функции file_get_contents
 //    Пусть в директории со скриптом лежит файл test.txt. Считайте данные из этого файла и выведите их на экран.
 echo file_get_contents('test.txt') . '<br> ';
