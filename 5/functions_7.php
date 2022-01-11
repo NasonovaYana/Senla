@@ -29,8 +29,8 @@ $arr = [[1, 2, 3], [4, 5], [6]];
 $sum = sumArray($arr);
 var_dump($sum);
 
-//Сделайте функцию принимающую трехмерный массив с числами, например [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]. Найдите сумму элементов этого массива. Массив, конечно же, может быть произвольным.
-// todo обсудить рекурсивное решение
+//Сделайте функцию принимающую трехмерный массив с числами, например [2, [[1, 2], 1, [3, 4]], [[5, 6], [7, 8]]]. Найдите сумму элементов этого массива. Массив, конечно же, может быть произвольным.
+// todo ПРИНЯТО обсудить рекурсивное решение
 function sumArrayDimens($arr)
 {
     $sum = 0;
@@ -73,12 +73,12 @@ var_dump($arr);
 //Сделайте функцию isNumberInRange, которая параметром принимает число и проверяет, что оно больше нуля и меньше 10. Если это так - пусть функция возвращает true, если не так - false.
 function isNumberInRange($num)
 {
-    // todo в файле 6 уже был комментарий на подобную ситуацию
+    // todo ИСПРАВЛЕНО в файле 6 уже был комментарий на подобную ситуацию
+    $res = false;
     if ($num > 0 and $num < 10) {
-        return true;
-    } else {
-        return false;
-    };
+        $res = true;
+    } ;
+    return $res;
 }
 
 $res = isNumberInRange(6);
@@ -86,14 +86,10 @@ var_dump($res);
 echo '<br>';
 //Дан массив с числами. Запишите в новый массив только те числа, которые больше нуля и меньше 10-ти. Для этого используйте вспомогательную функцию isNumberInRange из предыдущей задачи.
 $array = [12, 13, 15, 6, 10, 1, -3, 23, -14];
-// todo 1. нужно в новый массив записать
-// todo 2. реши с помощью встроенной в php функции array_filter
-foreach ($array as $key => $elem) {
-    if (!isNumberInRange($elem)) {
-        unset($array[$key]);
-    }
-}
-var_dump($array);
+// todo 1. ИСПРАВЛЕНО нужно в новый массив записать
+// todo 2. ИСПРАВЛЕНО реши с помощью встроенной в php функции array_filter
+$arrayResult = array_filter($array, 'isNumberInRange');
+var_dump($arrayResult);
 echo '<br>';
 //Сделайте функцию getDigitsSum (digit - это цифра), которая параметром принимает целое число и возвращает сумму его цифр.
 function getDigitsSum($digit)
@@ -106,24 +102,34 @@ function getDigitsSum($digit)
 $sum = getDigitsSum(123);
 echo $sum . '<br><br>';
 //Найдите все года от 1 до 2021, сумма цифр которых равна 13. Для этого используйте вспомогательную функцию getDigitsSum из предыдущей задачи.
-// todo тоже попробуй с помощью array_filter решить
-for ($i = 1; $i < 2022; $i++) {
-    if (getDigitsSum($i) === 13) {
-        //echo $i.'<br>';
+// todo ИСПРАВЛЕНО тоже попробуй с помощью array_filter решить
+function checkSum($a){
+    $res=false;
+    if(getDigitsSum($a)===13){
+        $res=true;
     }
+    return $res;
 }
+
+$arrYears = range(1,2021);
+$arrYears = array_filter($arrYears,'checkSum');
+var_dump($arrYears);
 echo '<br><br>';
 //Сделайте функцию getDivisors, которая параметром принимает число и возвращает массив его делителей (чисел, на которое делится данное число).
 // todo 1. что будет если не попадем в условие $num % $i === 0?
 // todo 2. тоже реши с помощью array_filter, подсказка: для внедрения внешней переменной в колл бэк функцию, используется ключевое слово use.
 function getDivisors($num)
 {
-    for ($i = 1; $i < $num; $i++) {
-        if ($num % $i === 0) {
-            $arr[] = $i;
-        }
-    }
-    return $arr;
+    $arr =  range(1,ceil($num / 2));
+
+    return array_filter($arr, fn ($item) => ($num % $item === 0));
+
+//    for ($i = 1; $i < $num; $i++) {
+//        if ($num % $i === 0) {
+//            $arr[] = $i;
+//        }
+//    }
+//    return $arr;
 }
 
 $arrDiv = getDivisors(15);
@@ -153,17 +159,44 @@ function sumArr($arr)
 }
 
 // todo у меня здесь все виснет
-// todo зачем $i < 10001 ?
-for ($i = 2; $i < 10001; $i++) {
-    unset($a1);
-    $a1 = getDivisors($i);
-    for ($j = 2; $j < $i; $j++) {
-        unset($a2);
-        $a2 = getDivisors($j);
-        if (sumArr($a1) == $j and sumArr($a2) == $i) {
-            echo "$i - $j<br>";
-        }
+// todo зачем $i < 10001 (чтобы проверить все числа в диапазоне из условия) ?
+//for ($i = 2; $i < 10001; $i++) {
+//    unset($a1);
+//    $a1 = getDivisors($i);
+//    for ($j = 2; $j < $i; $j++) {
+//        unset($a2);
+//        $a2 = getDivisors($j);
+//        if (sumArr($a1) == $j and sumArr($a2) == $i) {
+//            echo "$i - $j<br>";
+//        }
+//    }
+//}
+
+function getAmicableNumbers($numbers) {
+    // создаем массив, где ключ - число, а значение - сумма его делителей
+    $numbersDivisors = [];
+    $amicableNumbers = [];
+    for ($i = 2; $i <= $numbers; $i++) {
+        $divisors = getDivisors($i);
+        $numbersDivisors[$i] = array_sum($divisors);
     }
+
+    // проходим по массиву $numbersDivisors и ищем ключи, равные значениям и проверяем, что значения найденных ключей равны текущему ключу (это и будут дружественные числа)
+//     foreach ($numbersDivisors as $number => $sumDivisors) {
+//         if (array_key_exists($sumDivisors, $numbersDivisors) && $number === $numbersDivisors[$sumDivisors] && $number !==$sumDivisors) {
+//             // ключ
+//             $amicableNumbers[$number] = $sumDivisors;
+//         }
+//     }
+//
+//     return $amicableNumbers;
+
+    //тоже самое но компактнее
+    return array_filter(
+        $numbersDivisors,
+        fn ($sumDivisors, $number) => (array_key_exists($sumDivisors, $numbersDivisors) && $number === $numbersDivisors[$sumDivisors] && $number !==$sumDivisors),
+        ARRAY_FILTER_USE_BOTH
+    );
 }
 
 
@@ -172,9 +205,8 @@ echo '<br>';
 //Сделайте функцию cut, которая первым параметром будет принимать строку, а вторым параметром - сколько первых символов оставить в этой строке. Второй параметр должен быть необязательным и по умолчанию принимать значение 10.
 function cut($str, $num = 10)
 {
-    // todo можно сразу возвращать результат substr
-    $str = substr($str, 0, $num);
-    return $str;
+    // todo ИСПРАВЛЕНО можно сразу возвращать результат substr
+    return substr($str, 0, $num);;
 }
 
 $str = '1234567890123';
@@ -185,13 +217,11 @@ unset($arr);
 $arr = [1, 2, 3, 4, 5];
 function recOut($arr, $i)
 {
-    // todo 1. На последнем вызове будет warning, т.к. проверка $i < $count должна быть до обращения к $arr[$i]
-    // todo 2. можно подсократить код, перенеся count($arr) в условие, а $i++ в вызов функции recOut, т.к. ты эти значения больше нигде не используешь.
+    // todo 1. ИСПРАВЛЕНО На последнем вызове будет warning, т.к. проверка $i < $count должна быть до обращения к $arr[$i]
+    // todo 2. ИСПРАВЛЕНО можно подсократить код, перенеся count($arr) в условие, а $i++ в вызов функции recOut, т.к. ты эти значения больше нигде не используешь.
     echo $arr[$i];
-    $count = count($arr);
-    if ($i < $count) {
-        $i++;
-        recOut($arr, $i);
+    if ($i < count($arr)-1) {
+        recOut($arr, ++$i);
     }
 }
 
@@ -199,7 +229,7 @@ recOut($arr, 0);
 echo '<br><br>';
 //Дано число. Сложите его цифры. Если сумма получилась более 9-ти, опять сложите его цифры. И так, пока сумма не станет однозначным числом (9 и менее).
 
-// todo обсудить, что здесь происходит, и как сделать так, чтобы функция возвращала искомое число, а не просто его выводила.
+// todo ПРИНЯТО обсудить, что здесь происходит, и как сделать так, чтобы функция возвращала искомое число, а не просто его выводила.
 function recSum($num)
 {
     $arr = str_split($num, 1);

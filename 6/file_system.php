@@ -1,4 +1,5 @@
 <?php
+
 //Чтение файла с помощью функции file_get_contents
 //    Пусть в директории со скриптом лежит файл test.txt. Считайте данные из этого файла и выведите их на экран.
 echo file_get_contents('test.txt') . '<br> ';
@@ -136,10 +137,10 @@ foreach ($arrDir as $key => $elem) {
     }
 }
 // Пусть в директории со скриптом лежит папка dirScan, а в ней какие-то текстовые файлы. Переберите эти файлы циклом, откройте каждый из них и запишите в конец восклицательный знак.
-$arrFiles = array_diff(scandir('dirScan'),['..','.']);
+$arrFiles = array_diff(scandir('dirScan'), ['..', '.']);
 foreach ($arrFiles as $name) {
     $name = "dirScan\\" . $name;
-        file_put_contents($name, '!', FILE_APPEND);
+    file_put_contents($name, '!', FILE_APPEND);
 }
 
 //Отличаем папку от файла с помощью is_file и is_dir
@@ -159,50 +160,53 @@ foreach ($arrFiles as $name) {
 //Рекурсивный обход вложенных папок
 // Пусть в директории со скриптом лежит папка dirScan, а в ней какие-то текстовые файлы и подпапки. В подпапках в свою очередь также могут быть текстовые файлы и подпапки. Рекурсивно пройдитесь по всем вложенным папкам и выведите в браузер пути ко всем текстовым файлам.
 
-function getFilePath($nameDir){
-        $nameFiles = array_diff (scandir($nameDir),['..','.']);
-        foreach ($nameFiles as $elem) {
-            $path =$nameDir.'/'.$elem;
-            if (is_dir($path)) {
-                getFilePath($path);
-            }
-            else {
-                echo $path.'<br>';
-            }
+function getFilePath($nameDir)
+{
+    $nameFiles = array_diff(scandir($nameDir), ['..', '.']);
+    foreach ($nameFiles as $elem) {
+        $path = $nameDir . '/' . $elem;
+        if (is_dir($path)) {
+            getFilePath($path);
+        } else {
+            echo $path . '<br>';
         }
+    }
 
 }
+
 getFilePath('dirScan');
 // Пусть в директории со скриптом лежит папка dirScan с текстовыми файлами и подпапками. Рекурсивно пройдитесь по всем вложенным папкам и в конец каждого текстового файла запишите восклицательный знак.
-function addToFile($nameDir){
-    $nameFiles = array_diff (scandir($nameDir),['..','.']);
+function addToFile($nameDir)
+{
+    $nameFiles = array_diff(scandir($nameDir), ['..', '.']);
     foreach ($nameFiles as $elem) {
-        $path =$nameDir.'/'.$elem;
+        $path = $nameDir . '/' . $elem;
         if (is_dir($path)) {
             addToFile($path);
-        }
-        else {
+        } else {
             file_put_contents($path, '!', FILE_APPEND);
         }
     }
 
 }
+
 addToFile('dirScan');
 //Рекурсивное удаление папки вместе с подпапками
 // Пусть в директории со скриптом лежит папка dir с текстовыми файлами и подпапками. Удалите папку dir вместе с ее содержимым.
-function dirRm($nameDir){
-    $nameFiles = array_diff (scandir($nameDir),['..','.']);
+function dirRm($nameDir)
+{
+    $nameFiles = array_diff(scandir($nameDir), ['..', '.']);
     foreach ($nameFiles as $elem) {
-        $path =$nameDir.'/'.$elem;
+        $path = $nameDir . '/' . $elem;
         if (is_dir($path)) {
-           dirRm($path);
-        }
-        else {
+            dirRm($path);
+        } else {
             unlink($path);
         }
     }
     rmdir($nameDir);
 }
+
 //dirRm('dirScanDel');
 //Повторение:
 echo "<br>Повторение: <br><br>";

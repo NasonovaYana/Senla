@@ -1,19 +1,21 @@
 <?php
-$id = $_GET['blockId'];
+/*$id = $_GET['blockId'];
 $task = $_GET['task'];
 echo "Block ID = $id<br>";
-echo "task = $task<br><br>";
+echo "task = $task<br><br>";*/
 
 // todo переписать на нормальную интеграцию php и html
 //Задачи на формы:
 //Спросите имя пользователя с помощью формы. Результат запишите в переменную $name. Выведите на экран фразу 'Привет, %Имя%'.
+
 $forms = include './forms_for_get.phtml';
 echo $forms['form1'];
+
 if (isset($_GET['name'])) {
     $name = $_GET['name'];
     echo "Привет, $name!<br><br>";
 }
-
+/*
 //Спросите у пользователя имя, возраст, а также попросите его ввести сообщение (его сделайте в textarea). Выведите эти данные на экран в формате, приведенном под данной задачей. Позаботьтесь о том, чтобы пользователь не мог вводить теги (просто удаляйте их) и таким образом сломать сайт.
 
 echo $forms['form2'];
@@ -64,3 +66,4 @@ if (!isset($_GET['nameUserAgain']) and !isset($_GET['userMassage'])) {
     $userMessage = $_GET['userMessage'];
     echo $forms['form8'];
 }
+*/
