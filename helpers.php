@@ -1,5 +1,4 @@
 <?php
-
 function d($data){
     if(is_null($data)){
         $str = "<i>NULL</i>";
@@ -37,7 +36,7 @@ function dump($data){
 
 function dd($data){
     dump($data);
-    exit;
+    //exit;
 }
 
 function ddt($message = ""){
