@@ -18,23 +18,73 @@ echo $forms['hrefNext'];
 if (!isset($_SESSION['count'])) {
     $_SESSION['count'] = 0;
     echo "Вы не обновляли страницу<br>";
-}else{
+} else {
     $_SESSION['count']++;
 }
 $count = $_SESSION['count'];
 echo "Вы обновили страницу $count раз<br>";
 
 //Сделайте две страницы: index.php и test.php. При заходе на index.php спросите с помощью формы страну пользователя, запишите ее в сессию (форма при этом должна отправится на эту же страницу). Пусть затем пользователь зайдет на страницу test.php - выведите там страну пользователя.
+echo $forms['hrefIndex'];
+
 //Запишите в сессию время захода пользователя на сайт. При обновлении страницы выводите сколько секунд назад пользователь зашел на сайт.
+if (!isset($_SESSION['firstTime'])) {
+    $_SESSION['firstTime'] = time();
+}
+$timeToFirstTime = time() - $_SESSION['firstTime'];
+echo "Вы впервые зашли на сайт $timeToFirstTime секунд назад";
 //Спросите у пользователя email с помощью формы. Затем сделайте так, чтобы в другой форме (поля: имя, фамилия, пароль, email) при ее открытии поле email было автоматически заполнено.
-//
+if (!isset($_POST['usersMail'])) {
+    echo $forms['usersMail'];
+} else {
+    $_SESSION['usersMail'] = $_POST['usersMail'];
+    $usersMail = $_SESSION['usersMail'];
+    echo "<form method='post'><input name='name' placeholder='Имя'><input name='lastName' placeholder='Фамилия'><input name='mail' value='$usersMail'><input type='submit'> </form>";
+}
 //Работа со cookie
 //По заходу на страницу запишите в куку с именем test текст '123'. Затем обновите страницу и выведите содержимое этой куки на экран.
+if (!isset($_COOKIE['test'])) {
+    setcookie('test', '123');
+} else {
+    echo $_COOKIE['test'];
+}
 //Удалите куку с именем test.
+//setcookie('test','',time()-60);
 //Сделайте счетчик посещения сайта посетителем. Каждый раз, заходя на сайт, он должен видеть надпись: 'Вы посетили наш сайт % раз!'.
+$count = isset($_COOKIE['count'])?$_COOKIE['count']:0;
+$count++;
+setcookie('count',$count, time()+3600*24*365);
+echo "<br> Вы посетили сайт ". $_COOKIE['count'] ." раз<br>";
 //Спросите дату рождения пользователя. При следующем заходе на сайт напишите сколько дней осталось до его дня рождения. Если сегодня день рождения пользователя - поздравьте его!
+echo $forms['usersBDay'];
+//Добавить время к куки
+if(!isset($_COOKIE['bday'])){
+    setcookie('bday',$_POST['usersBDay'] );
+    }else {
+    $timeStr = explode('.',$_COOKIE['bday']);
+    $year = date('Y');
+    $timeBD= (mktime(0,0,0,$timeStr[1],$timeStr[0], $year)-time())/(3600*24);
+    if($timeBD<0){
+        $year++;
+        $timeBD= (mktime(0,0,0,$timeStr[1],$timeStr[0], $year)-time())/(3600*24);
+    }
+}
+echo ceil($timeBD);
+//if(isset($_POST['usersBDay'])){
+//    $timeStr = explode('.',$_POST['usersBDay']);
+//    $year = date('Y');
+//    $timeBD= (mktime(0,0,0,$timeStr[1],$timeStr[0], $year)-time())/(3600*24);
+//    if($timeBD<0){
+//        $year++;
+//        $timeBD= (mktime(0,0,0,$timeStr[1],$timeStr[0], $year)-time())/(3600*24);
+//    }
+//    echo ceil($timeBD);
+
+    
+//}
 //
 var_dump($_SESSION);
+var_dump($_COOKIE);
 //Повторение:
 echo '<br>Повторение:<br>';
 //Создайте массив $arr с элементами 2, 5, 3, 9. Умножьте первый элемент массива на второй, а третий элемент на четвертый. Результаты сложите, присвойте переменной $result. Выведите на экран значение этой переменной.
@@ -61,6 +111,20 @@ for ($i = 1; $i < 10; $i++) {
 echo $forms['form1'];
 $firstNum = $_POST['firstNum'];
 $secondNum = $_POST['secondNum'];
+function getDivisors($num)
+{
+    $arr = range(1, ceil($num / 2));
+    return array_filter($arr, fn($item) => ($num % $item === 0));
+}
+
+function getCommonDivisors($num1, $num2)
+{
+    $arr1 = getDivisors($num1);
+    $arr2 = getDivisors($num2);
+    return array_intersect($arr1, $arr2);
+}
+
+var_dump(getCommonDivisors($firstNum, $secondNum));
 //Напишите скрипт, который будет считать факториал числа. Само число вводится в инпут и после нажатия на кнопку пользователь должен увидеть результат.
 //
 //Задайте дату-время в формате '2025-12-31T12:13:59'. С помощью функции strtotime и функции date преобразуйте ее в формат '12:13:59 31.12.2025'.
