@@ -57,34 +57,27 @@ setcookie('count',$count, time()+3600*24*365);
 echo "<br> Вы посетили сайт ". $_COOKIE['count'] ." раз<br>";
 //Спросите дату рождения пользователя. При следующем заходе на сайт напишите сколько дней осталось до его дня рождения. Если сегодня день рождения пользователя - поздравьте его!
 echo $forms['usersBDay'];
-//Добавить время к куки
+
 if(!isset($_COOKIE['bday'])){
-    setcookie('bday',$_POST['usersBDay'] );
-    }else {
-    $timeStr = explode('.',$_COOKIE['bday']);
+    if(isset($_POST['usersBDay'])){
+        $strDB=$_POST['usersBDay'];
+    }
+    setcookie('bday',$strDB,time()+3600 );
+}else {
+    $timeStr = explode('.', $_COOKIE['bday']);
     $year = date('Y');
-    $timeBD= (mktime(0,0,0,$timeStr[1],$timeStr[0], $year)-time())/(3600*24);
-    if($timeBD<0){
+    $timeBD = (mktime(0, 0, 0, $timeStr[1], $timeStr[0], $year) - time()) / (3600 * 24);
+    if ($timeBD < 0) {
         $year++;
-        $timeBD= (mktime(0,0,0,$timeStr[1],$timeStr[0], $year)-time())/(3600*24);
+        $timeBD = (mktime(0, 0, 0, $timeStr[1], $timeStr[0], $year) - time()) / (3600 * 24);
+    }
+    echo "<br>Дней до Дня рождения: ".ceil($timeBD)."<br>";
+    if(ceil($timeBD)==0){
+        echo "С Днём Рождения!<br>";
     }
 }
-echo ceil($timeBD);
-//if(isset($_POST['usersBDay'])){
-//    $timeStr = explode('.',$_POST['usersBDay']);
-//    $year = date('Y');
-//    $timeBD= (mktime(0,0,0,$timeStr[1],$timeStr[0], $year)-time())/(3600*24);
-//    if($timeBD<0){
-//        $year++;
-//        $timeBD= (mktime(0,0,0,$timeStr[1],$timeStr[0], $year)-time())/(3600*24);
-//    }
-//    echo ceil($timeBD);
 
-    
-//}
-//
-var_dump($_SESSION);
-var_dump($_COOKIE);
+
 //Повторение:
 echo '<br>Повторение:<br>';
 //Создайте массив $arr с элементами 2, 5, 3, 9. Умножьте первый элемент массива на второй, а третий элемент на четвертый. Результаты сложите, присвойте переменной $result. Выведите на экран значение этой переменной.
@@ -109,22 +102,24 @@ for ($i = 1; $i < 10; $i++) {
 }
 //Даны 2 инпута и кнопка. В инпуты вводятся числа. По нажатию на кнопку выведите список общих делителей этих двух чисел.
 echo $forms['form1'];
-$firstNum = $_POST['firstNum'];
-$secondNum = $_POST['secondNum'];
-function getDivisors($num)
-{
-    $arr = range(1, ceil($num / 2));
-    return array_filter($arr, fn($item) => ($num % $item === 0));
+if( isset($_POST['firstNum']) and isset($_POST['secondNum'])) {
+    $firstNum = $_POST['firstNum'];
+    $secondNum = $_POST['secondNum'];
+    function getDivisors($num)
+    {
+        $arr = range(1, ceil($num / 2));
+        return array_filter($arr, fn($item) => ($num % $item === 0));
+    }
+
+    function getCommonDivisors($num1, $num2)
+    {
+        $arr1 = getDivisors($num1);
+        $arr2 = getDivisors($num2);
+        return array_intersect($arr1, $arr2);
+    }
+    var_dump(getCommonDivisors($firstNum, $secondNum));
 }
 
-function getCommonDivisors($num1, $num2)
-{
-    $arr1 = getDivisors($num1);
-    $arr2 = getDivisors($num2);
-    return array_intersect($arr1, $arr2);
-}
-
-var_dump(getCommonDivisors($firstNum, $secondNum));
 //Напишите скрипт, который будет считать факториал числа. Само число вводится в инпут и после нажатия на кнопку пользователь должен увидеть результат.
 //
 //Задайте дату-время в формате '2025-12-31T12:13:59'. С помощью функции strtotime и функции date преобразуйте ее в формат '12:13:59 31.12.2025'.
@@ -137,3 +132,5 @@ var_dump(getCommonDivisors($firstNum, $secondNum));
 $str = 'hello.site.ru';
 var_dump(preg_match('#^[a-z]+\.[a-z]+\.[a-z]+$#', $str));
 //С помощью позитивного и негативного просмотра найдите все строки по шаблону любая буква, но не b, затем 3 буквы a и поменяйте 3 буквы a на знак '!'. То есть из, к примеру, 'waaa' нужно сделать 'w!', а 'baaa' не поменяется.
+$str = 'waaa baaa';
+echo "<br>".preg_replace('#(?<=[^b])(aaa)#','!',$str);
