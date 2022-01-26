@@ -34,13 +34,11 @@ if (!isset($_SESSION['firstTime'])) {
 $timeToFirstTime = time() - $_SESSION['firstTime'];
 echo "Вы впервые зашли на сайт $timeToFirstTime секунд назад";
 //Спросите у пользователя email с помощью формы. Затем сделайте так, чтобы в другой форме (поля: имя, фамилия, пароль, email) при ее открытии поле email было автоматически заполнено.
-if (!isset($_POST['usersMail'])) {
-    //echo $forms['usersMail'];
-} else {
+if (isset($_POST['usersMail'])) {
     $_SESSION['usersMail'] = $_POST['usersMail'];
-    $usersMail = $_SESSION['usersMail'];
-    echo "<form method='post'><input name='name' placeholder='Имя'><input name='lastName' placeholder='Фамилия'><input name='mail' value='$usersMail'><input type='submit'> </form>";
-}
 
+//    echo "<form method='post'><input name='name' placeholder='Имя'><input name='lastName' placeholder='Фамилия'><input name='mail' value='$usersMail'><input type='submit'> </form>";
+}
+$usersMail = $_SESSION['usersMail'] ?? null;
 
 
