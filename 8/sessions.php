@@ -121,13 +121,32 @@ if( isset($_POST['firstNum']) and isset($_POST['secondNum'])) {
 }
 
 //Напишите скрипт, который будет считать факториал числа. Само число вводится в инпут и после нажатия на кнопку пользователь должен увидеть результат.
-//
+function fact($num){
+    $res = 1;
+    for($i=$num;$i>1;$i--){
+        $res*=$i;
+    }
+    return $res;
+}
+echo $forms['factNum'];
+if(isset($_POST['factNum'])) {
+    echo "Факториал ".$_POST['factNum'].": ".fact($_POST['factNum'])."<br>";
+}
+
 //Задайте дату-время в формате '2025-12-31T12:13:59'. С помощью функции strtotime и функции date преобразуйте ее в формат '12:13:59 31.12.2025'.
-//
+$str = '2025-12-31T12:13:59';
+echo "<br>".date('H:i:s d.m.Y',strtotime($str))."<br>";
 //Пусть в директории со скриптом лежит папка dir, а в ней какие-то текстовые файлы. Переберите эти файлы циклом и выведите их тексты в браузер.
-//
+$arr =  array_diff(scandir('dir'), ['..', '.']);
+foreach ($arr as $elem){
+    echo file_get_contents('dir/'.$elem).'<br>';
+}
 //Пусть в директории со скриптом лежит файл test.txt, в котором записано некоторое число. Откройте этот файл, возведите число в квадрат и запишите обратно в файл.
-//
+$num = file_get_contents('test.txt');
+var_dump($num);
+$num*=$num;
+file_put_contents('test.txt',$num);
+
 //С помощью preg_match определите, что переданная строка является доменом 3-го уровня. Примеры доменов: hello.site.ru, hello.site.com, hello.my-site.com.
 $str = 'hello.site.ru';
 var_dump(preg_match('#^[a-z]+\.[a-z]+\.[a-z]+$#', $str));
