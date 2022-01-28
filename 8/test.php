@@ -1,5 +1,4 @@
 <?php
-session_start();
 $forms = include './sessions_forms.phtml';
 if(isset($_SESSION['usersCountry'])){
     echo $_SESSION['usersCountry'];
