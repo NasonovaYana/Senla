@@ -1,0 +1,53 @@
+body {
+    margin: auto;
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 16px;
+    background-color: #E0E0E0;
+}
+h1{
+    font-size: 25px;
+    color: #646365;
+}
+input[type=submit] {
+    width: 130px;
+    height: 30px;
+    border-radius: 18px;
+    appearance: none;
+    border: none;
+    background-color: #4985FF;
+    color: #F6F6F8;
+    font-size: 14px;
+}
+input[type=submit]:focus{
+    background-color: #646365;
+}
+.menu {
+    height: 70px;
+    background-color: #4985FF;
+    text-align: right;
+}
+.menu-item{
+    display: inline-block;
+    margin-right: 50px;
+    margin-top: 25px;
+
+}
+.menu-item a{
+    text-decoration: none;
+    color: #F6F6F8;
+    padding: 10px;
+}
+.menu-item a:hover{
+    border-bottom: 1px solid #F6F6F8;
+}
+
+main{
+    margin-top: 30px;
+    margin-left: 50px;
+    line-height: 30px;
+}
+
+main input[type=submit]{
+    margin-top: 30px;
+}
