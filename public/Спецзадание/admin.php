@@ -16,8 +16,8 @@
 </div>
 <main>
     <form method="post" enctype="multipart/form-data">
-        <input name="fileName" placeholder="название теста">
-        <input type="file" name='newTest'>
+        <input required name="fileName" placeholder="название теста">
+        <input required type="file" name='newTest'>
         <input type="submit">
     </form>
     <?php

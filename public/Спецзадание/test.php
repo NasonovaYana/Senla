@@ -1,9 +1,9 @@
 <?php
 session_start();
-$testFileName = $_SESSION['test'];
+//$testFileName = $_SESSION['test'];
 
-if (isset($_GET["chosenTest"])) {
-    $chosenTest = $_GET["chosenTest"];
+if (isset($_GET["test"])) {
+    $chosenTest = $_GET["test"].'.json';
     $_SESSION['test'] = $chosenTest;
 }
 
@@ -26,12 +26,11 @@ if (isset($_GET["chosenTest"])) {
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
 </div>
 <main>
-    <h1>Тест: <?= str_replace('.json', '', $testFileName) ?></h1>
+    <h1>Тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
     <form method="post" action="check.php">
         <?php
-        $json = file_get_contents("upload_tests\\" . $testFileName);
+        $json = file_get_contents("upload_tests\\" . $chosenTest);
         $testObj = json_decode($json, true);
-        $_SESSION['testArr'] = $testObj;
         $testForm = $testObj;
         foreach ($testForm
 

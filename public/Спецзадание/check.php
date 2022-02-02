@@ -3,7 +3,9 @@ session_start();
 $arr = $_POST;
 $allQw = count($arr);
 $count = 0;
-$testArr = $_SESSION['testArr'];
+$nameTest = $_SESSION['test'];
+$json = file_get_contents("upload_tests\\" . $nameTest);
+$testArr = json_decode($json, true);
 foreach ($arr as $qw => $ans) {
 
     if ($ans == $testArr[$qw][array_key_last($testArr[$qw])]) {
