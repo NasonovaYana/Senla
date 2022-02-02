@@ -30,9 +30,18 @@ foreach ($arr as $qw => $ans) {
 </div>
 <main>
     <?php
+    if(in_array('gd', get_loaded_extensions())) {
+
+        echo 'GD ON';
+
+    } else {
+
+        echo 'GD OFF';
+
+    }
     echo "Ваш результат: $count из $allQw баллов";
     $img="certificate.png";
-    //$pic = ImageCreateFromPng($img);
+    $pic = ImageCreateFromPng($img);
 
     ?>
 </main>
