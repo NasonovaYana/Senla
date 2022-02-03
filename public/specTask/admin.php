@@ -25,7 +25,7 @@
         $fileName = $_POST['fileName'];
         $tmpPath = $_FILES['newTest']['tmp_name'];
         move_uploaded_file($tmpPath, "upload_tests\\" . $fileName . ".json");
-        $new_url = 'http://localhost:63342/senla_rep/public/%D0%A1%D0%BF%D0%B5%D1%86%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5/list.php';
+        $new_url = 'http://localhost:63342/senla_rep/public/specTask/list.php';
         header('Location: '.$new_url);
     }
     ?>
