@@ -1,20 +1,21 @@
 <?php
 session_start();
-$arr = $_POST;
-$nameUser = $arr['userName'];
+$nameUser = $_POST['userName'];
+$userAns = $_POST;;
+unset($userAns['userName']);
+$userAns = array_values($userAns);
 $count = 0;
 $nameTest = $_SESSION['test'];
 $json = file_get_contents("upload_tests/" . $nameTest);
 $testArr = json_decode($json, true);
-$allQw = count($testArr);
+$allQw = count($testArr["right"]);
+$rightAns=$testArr["right"];
 $mistakes = [];
-foreach ($testArr as $task)
-{
-    $qw = $task["qw"];
-    if ($task["right"]==$arr[$qw]){
+foreach ($userAns as $key=>$elem){
+    if($elem == $rightAns[$key]){
         $count++;
     }else{
-        $mistakes[] = [$qw, $arr[$qw], $task["right"]];
+        $mistakes[]=[$testArr["questions"][$key],$elem,$rightAns[$key]];
     }
 }
 $img="img/certificate.png";

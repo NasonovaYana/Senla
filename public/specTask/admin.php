@@ -12,7 +12,7 @@ header('Location: '.$new_url);
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="prec onnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400,500;1,100&display=swap"
           rel="stylesheet">
     <link href="css/style.css" rel="stylesheet" type="text/css">
@@ -28,7 +28,7 @@ header('Location: '.$new_url);
         <input required type="file" name='newTest'>
         <input type="submit">
     </form>
-   
+
 </main>
 </body>
 </html>

@@ -35,18 +35,15 @@ if(!file_exists("upload_tests/" .$_SESSION['test'])){
         <?php
         $json = file_get_contents("upload_tests/" . $chosenTest);
         $testObj = json_decode($json, true);
-        foreach ($testObj as $task):
-            if ($task["free"]):?>
-                <p><?=$task["qw"]?></p>
-                <input type="text" name="<?=$task["qw"]?>"><br>
-            <?php else:?>
-                <p><?=$task["qw"]?></p>
-                <?php
-
-                foreach ($task["ans"] as $elem):
-                    ?>
-                    <input required type="radio" name="<?=$task["qw"]?>" value="<?= $elem ?>"><?= $elem ?><br>
-                <?php endforeach; endif;endforeach;?>
+        foreach ($testObj["questions"] as $key=>$elem):?>
+            <p><?=$elem?></p>
+            <?php
+            foreach ($testObj["answers"][$key] as $ans):?>
+                <?php if ($ans == "free"):?>
+                    <input type="text" name="<?=$elem?>"><br>
+                <?php else:?>
+                    <input required type="radio" name="<?=$elem?>" value="<?= $ans ?>"><?= $ans ?><br>
+                <?php endif; endforeach; endforeach;?>
             <input type="submit" value="Завершить тест">
     </form>
 </main>
