@@ -5,12 +5,15 @@ body {
     font-size: 16px;
     background-color: #E0E0E0;
 }
+
 h1{
     font-size: 25px;
     color: #646365;
 }
+
 input[type=submit] {
-    width: 130px;
+    margin-top: 30px;
+    width: 150px;
     height: 30px;
     border-radius: 18px;
     appearance: none;
@@ -48,6 +51,4 @@ main{
     line-height: 30px;
 }
 
-main input[type=submit]{
-    margin-top: 30px;
-}
+

@@ -6,7 +6,7 @@ if (isset($_GET["test"])) {
     $chosenTest = $_GET["test"].'.json';
     $_SESSION['test'] = $chosenTest;
 }
-if(!file_exists("upload_tests\\" .$_SESSION['test'])){
+if(!file_exists("upload_tests/" .$_SESSION['test'])){
     header("HTTP/1.0 404 Not Found");
     exit;
 }
@@ -21,7 +21,7 @@ if(!file_exists("upload_tests\\" .$_SESSION['test'])){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400,500;1,100&display=swap"
           rel="stylesheet">
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="menu">
@@ -33,7 +33,7 @@ if(!file_exists("upload_tests\\" .$_SESSION['test'])){
     <form method="post" action="check.php">
         <input required name = 'userName' placeholder="Введите имя">
         <?php
-        $json = file_get_contents("upload_tests\\" . $chosenTest);
+        $json = file_get_contents("upload_tests/" . $chosenTest);
         $testObj = json_decode($json, true);
         foreach ($testObj as $task):
             if ($task["free"]):?>
