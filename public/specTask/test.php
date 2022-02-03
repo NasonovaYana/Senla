@@ -6,7 +6,10 @@ if (isset($_GET["test"])) {
     $chosenTest = $_GET["test"].'.json';
     $_SESSION['test'] = $chosenTest;
 }
-
+if(!file_exists("upload_tests\\" .$_SESSION['test'])){
+    header("HTTP/1.0 404 Not Found");
+    exit;
+}
 
 ?>
 <!DOCTYPE html>
@@ -28,23 +31,22 @@ if (isset($_GET["test"])) {
 <main>
     <h1>Тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
     <form method="post" action="check.php">
+        <input required name = 'userName' placeholder="Введите имя">
         <?php
         $json = file_get_contents("upload_tests\\" . $chosenTest);
         $testObj = json_decode($json, true);
-        $testForm = $testObj;
-        foreach ($testForm
+        foreach ($testObj as $task):
+            if ($task["free"]):?>
+                <p><?=$task["qw"]?></p>
+                <input type="text" name="<?=$task["qw"]?>"><br>
+            <?php else:?>
+                <p><?=$task["qw"]?></p>
+                <?php
 
-        as $qw => $answers): ?>
-        <p><?= $qw ?><p>
-            <?php if ($answers[0] == "free"): ?>
-                <input type="text" name="<?= $qw ?>"><br>
-            <?php else: ?>
-                <?php $randAnswers = $answers;
-                shuffle($randAnswers);
-                foreach ($randAnswers as $ans): ?>
-                    <input type="radio" name="<?= $qw ?>" value="<?= $ans ?>"><?= $ans ?><br>
-                <?php endforeach; endif;
-            endforeach; ?>
+                foreach ($task["ans"] as $elem):
+                    ?>
+                    <input required type="radio" name="<?=$task["qw"]?>" value="<?= $elem ?>"><?= $elem ?><br>
+                <?php endforeach; endif;endforeach;?>
             <input type="submit" value="Завершить тест">
     </form>
 </main>

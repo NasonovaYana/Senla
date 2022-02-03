@@ -1,17 +1,23 @@
 <?php
 session_start();
 $arr = $_POST;
-$allQw = count($arr);
+$nameUser = $arr['userName'];
 $count = 0;
 $nameTest = $_SESSION['test'];
 $json = file_get_contents("upload_tests\\" . $nameTest);
 $testArr = json_decode($json, true);
-foreach ($arr as $qw => $ans) {
-
-    if ($ans == $testArr[$qw][array_key_last($testArr[$qw])]) {
+$allQw = count($testArr);
+$mistakes = [];
+foreach ($testArr as $task)
+{
+    $qw = $task["qw"];
+    if ($task["right"]==$arr[$qw]){
         $count++;
+    }else{
+        $mistakes[] = [$qw, $arr[$qw], $task["right"]];
     }
-} ?>
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,20 +36,23 @@ foreach ($arr as $qw => $ans) {
 </div>
 <main>
     <?php
-    if(in_array('gd', get_loaded_extensions())) {
 
-        echo 'GD ON';
-
-    } else {
-
-        echo 'GD OFF';
-
-    }
+//    if(in_array('gd', get_loaded_extensions())) {
+//
+//        echo 'GD ON';
+//
+//    } else {
+//
+//        echo 'GD OFF';
+//
+//    }
     echo "Ваш результат: $count из $allQw баллов";
     $img="certificate.png";
-    $pic = ImageCreateFromPng($img);
-
-    ?>
+    foreach ($mistakes as $mistake): ?>
+    <p> Ошибка в вопросе <?=$mistake[0]?></p>
+    <p style="color: red">Ваш ответ: <?=$mistake[1]?></p>
+    <p style="color: green">Верный ответ:<?=$mistake[2]?></p>
+    <?php endforeach;?>
 </main>
 </body>
 </html>
