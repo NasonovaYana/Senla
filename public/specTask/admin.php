@@ -28,9 +28,7 @@ header('Location: '.$new_url);
         <input required type="file" name='newTest'>
         <input type="submit">
     </form>
-    <?php
-
-    ?>
+   
 </main>
 </body>
 </html>
