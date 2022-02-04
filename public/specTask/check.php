@@ -8,6 +8,7 @@ $count = 0;
 $nameTest = $_SESSION['test'];
 $json = file_get_contents("upload_tests/" . $nameTest);
 $testArr = json_decode($json, true);
+$minPoints = $testArr["minimal"];
 $allQw = count($testArr["right"]);
 $rightAns=$testArr["right"];
 $mistakes = [];
@@ -62,9 +63,13 @@ $_SESSION['certificatePath'] = "certificates/".time().".png";
     <p style="color: red">Ваш ответ: <?=$mistake[1]?></p>
     <p style="color: green">Верный ответ:<?=$mistake[2]?></p>
     <?php endforeach;?>
+    <?php if ($count>=$minPoints):?>
     <form action="certificate.php">
         <input class="certif" type="submit" value="Скачать сертификат">
     </form>
+    <?php else:?>
+    <p>Вы не набрали достаточно баллов для получения сертификата.</p>
+    <?php endif;?>
 </main>
 </body>
 </html>
