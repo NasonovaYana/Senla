@@ -16,23 +16,28 @@ include "code/find_test.php";
 </head>
 <body>
 <div class="menu">
-    <div class="menu-item"><a href="admin.php">Загрузка тестов</a></div>
+    <?php
+    if ($_SESSION['status'] == 'admin'):
+        ?>
+        <div class="menu-item"><a href="admin.php">Загрузка тестов</a></div>
+        <div class="menu-item"><a href="delete.php">Удаление тестов</a></div>
+    <?php endif; ?>
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
 </div>
 <main>
     <h1>Тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
     <form method="post" action="check.php">
         <?php
-        foreach ($testObj["questions"] as $key=>$elem):?>
-            <p><?=$elem?></p>
+        foreach ($testObj["questions"] as $key => $elem):?>
+            <p><?= $elem ?></p>
             <?php
             foreach ($testObj["answers"][$key] as $ans):?>
-                <?php if ($ans == "free"):?>
-                    <input type="text" name="<?=$elem?>"><br>
-                <?php else:?>
-                    <input required type="radio" name="<?=$elem?>" value="<?= $ans ?>"><?= $ans ?><br>
-                <?php endif; endforeach; endforeach;?>
-            <input type="submit" value="Завершить тест">
+                <?php if ($ans == "free"): ?>
+                    <input type="text" name="<?= $elem ?>"><br>
+                <?php else: ?>
+                    <input required type="radio" name="<?= $elem ?>" value="<?= $ans ?>"><?= $ans ?><br>
+                <?php endif; endforeach; endforeach; ?>
+        <input type="submit" value="Завершить тест">
     </form>
 </main>
 </body>

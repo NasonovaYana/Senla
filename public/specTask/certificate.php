@@ -14,7 +14,12 @@ $path = $_SESSION['certificatePath']?>
 </head>
 <body>
 <div class="menu">
-    <div class="menu-item"><a href="admin.php">Загрузка тестов</a></div>
+    <?php
+    if ($_SESSION['status']=='admin'):
+        ?>
+        <div class="menu-item"><a href="admin.php">Загрузка тестов</a></div>
+        <div class="menu-item"><a href="delete.php">Удаление тестов</a></div>
+    <?php endif;?>
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
 </div>
 

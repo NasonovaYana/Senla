@@ -1,6 +1,7 @@
 <?php
-$uploadTests = array_diff(scandir('upload_tests'), ['.', '..']);
 session_start();
+$uploadTests = array_diff(scandir('upload_tests'), ['.', '..']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,24 +18,25 @@ session_start();
 <div class="menu">
     <?php
     if ($_SESSION['status']=='admin'):
-    ?>
-    <div class="menu-item"><a href="admin.php">Загрузка тестов</a></div>
+        ?>
+        <div class="menu-item"><a href="admin.php">Загрузка тестов</a></div>
         <div class="menu-item"><a href="delete.php">Удаление тестов</a></div>
     <?php endif;?>
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
 </div>
+
 <main>
     <?php if(empty($uploadTests)):?>
-    <h1>Тесты не загружены</h1>
+        <h1>Тесты не загружены</h1>
     <?php else:?>
-    <h1>Выберите тест</h1>
-<form method="get" action="test.php">
-    <?php foreach ($uploadTests as $test): ?>
-        <input required type="radio" name="test" value="<?php echo str_replace('.json','',$test)?>"><?php echo str_replace('.json','',$test) ?><br>
-    <?php endforeach; ?>
-    <input type="submit" value="Перейти к тесту">
-</form>
-<?php endif;?>
+        <h1>Выберите тест</h1>
+        <form method="get" action="code/testDelete.php">
+            <?php foreach ($uploadTests as $test): ?>
+                <input required type="radio" name="testDelete" value="<?php echo $test?>"><?php echo str_replace('.json','',$test) ?><br>
+            <?php endforeach; ?>
+            <input type="submit" value="Удалить тест">
+        </form>
+    <?php endif;?>
 </main>
 </body>
 </html>
