@@ -1,5 +1,5 @@
 <?php
-include "code/fileUpload.php";
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,16 +14,13 @@ include "code/fileUpload.php";
 </head>
 <body>
 <div class="menu">
-    <div class="menu-item"><a href="admin.php">Загрузка тестов</a></div>
-    <div class="menu-item"><a href="list.php">Список тестов</a></div>
+    <div class="menu-item"><a href="index_admin.php">Войти как администратор</a></div>
 </div>
 <main>
-    <form method="post" enctype="multipart/form-data">
-        <input required name="fileName" placeholder="название теста">
-        <input required type="file" name='newTest'>
-        <input type="submit">
+    <form method="post" action="code/authorization_guest.php">
+        <input required name = 'userName' placeholder="Введите имя">
+        <input type="submit" value="Войти">
     </form>
-
 </main>
 </body>
 </html>
