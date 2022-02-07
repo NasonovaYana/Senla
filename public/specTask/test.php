@@ -2,6 +2,8 @@
 include "code/find_test.php";
 /** @var $chosenTest string|null */
 /** @var $testObj array|null */
+/** @var $certExist bool|null */
+/** @var $certName string|null */
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +27,7 @@ include "code/find_test.php";
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
 </div>
 <main>
+    <?php if ($certExist==0):?>
     <h1>Тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
     <form method="post" action="check.php">
         <?php
@@ -39,6 +42,10 @@ include "code/find_test.php";
                 <?php endif; endforeach; endforeach; ?>
         <input type="submit" value="Завершить тест">
     </form>
+    <?php else:?>
+        <h1>Вы уже прошли тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
+        <img src="<?= "certificates/".$certName?>">
+    <?php endif;?>
 </main>
 </body>
 </html>

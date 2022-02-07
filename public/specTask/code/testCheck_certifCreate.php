@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 $nameUser = $_SESSION['userName'];
 $userAns = $_POST;
 $userAns = array_values($userAns);
@@ -33,6 +34,6 @@ $x = 290;
 $font_size = 28;
 $text = "$count из $allQw";
 imagettftext($pic, $font_size, $degree, $x, $y, $color, $font, $text);
-imagepng($pic, "certificates/".$nameUser."_". str_replace('.json','',$_SESSION['test']).time().".png");
+imagepng($pic, "certificates/".$nameUser."_". str_replace('.json','',$_SESSION['test']).".png");
 imagedestroy($pic);
-$_SESSION['certificatePath'] = "certificates/".$nameUser."_". str_replace('.json','',$_SESSION['test']).time().".png";
+$_SESSION['certificatePath'] = "certificates/".$nameUser."_". str_replace('.json','',$_SESSION['test']).".png";
