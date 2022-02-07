@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+$_SESSION['openCert'] = 1;
 $nameUser = $_SESSION['userName'];
 $userAns = $_POST;
 $userAns = array_values($userAns);
@@ -25,14 +25,18 @@ $font_size = 34;
 $degree = 0;
 $text = "$nameUser";
 $y = 240;
-$x = 295;
+$center = 350;
+$box = imagettfbbox($font_size, 0, $font, $text);
+$x = $center-round(($box[2]-$box[0])/2);
 $pic = imagecreatefrompng($img);
 $color = imagecolorallocate($pic, 99, 99, 99);
-imagettftext($pic, $font_size, $degree, $x, $y, $color, $font, $text);
+imagettftext($pic, $font_size, 0, $x, $y, $color, $font, $text);
 $y = 360;
-$x = 290;
 $font_size = 28;
 $text = "$count из $allQw";
+$box = imagettfbbox($font_size, 0, $font, $text);
+$x = $center-round(($box[2]-$box[0])/2);
+
 imagettftext($pic, $font_size, $degree, $x, $y, $color, $font, $text);
 imagepng($pic, "certificates/".$nameUser."_". str_replace('.json','',$_SESSION['test']).".png");
 imagedestroy($pic);

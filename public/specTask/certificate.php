@@ -1,6 +1,7 @@
 <?php
-session_start();
-$path = $_SESSION['certificatePath']?>
+include "code/certCode.php";
+/** @var $path string|null */
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
