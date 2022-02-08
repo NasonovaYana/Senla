@@ -1,6 +1,7 @@
 <?php
-$uploadTests = array_diff(scandir('upload_tests'), ['.', '..']);
 session_start();
+include "code/sessionActiveCheck.php";
+$uploadTests = array_diff(scandir('upload_tests'), ['.', '..']);
 ?>
 <!DOCTYPE html>
 <html lang="en">

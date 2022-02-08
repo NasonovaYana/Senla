@@ -1,4 +1,6 @@
 <?php
+session_start();
+include "code/sessionActiveCheck.php";
 include "code/certCode.php";
 /** @var $path string|null */
 ?>
@@ -16,16 +18,16 @@ include "code/certCode.php";
 <body>
 <div class="menu">
     <?php
-    if ($_SESSION['status']=='admin'):
+    if ($_SESSION['status'] == 'admin'):
         ?>
         <div class="menu-item"><a href="admin.php">Загрузка тестов</a></div>
         <div class="menu-item"><a href="delete.php">Удаление тестов</a></div>
-    <?php endif;?>
+    <?php endif; ?>
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
 </div>
 
 <main>
-    <img src="<?=$path?>">
+    <img src="<?= $path ?>">
 </main>
 </body>
 </html>

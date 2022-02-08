@@ -1,5 +1,7 @@
 <?php
-include "code/find_test.php";
+session_start();
+
+include "code/findTest.php";
 /** @var $chosenTest string|null */
 /** @var $testObj array|null */
 /** @var $certExist bool|null */
@@ -27,25 +29,25 @@ include "code/find_test.php";
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
 </div>
 <main>
-    <?php if ($certExist==0):?>
-    <h1>Тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
-    <form method="post" action="check.php">
-        <?php
-        foreach ($testObj["questions"] as $key => $elem):?>
-            <p><?= $elem ?></p>
+    <?php if ($certExist == 0): ?>
+        <h1>Тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
+        <form method="post" action="check.php">
             <?php
-            foreach ($testObj["answers"][$key] as $ans):?>
-                <?php if ($ans == "free"): ?>
-                    <input type="text" name="<?= $elem ?>"><br>
-                <?php else: ?>
-                    <input required type="radio" name="<?= $elem ?>" value="<?= $ans ?>"><?= $ans ?><br>
-                <?php endif; endforeach; endforeach; ?>
-        <input type="submit" value="Завершить тест">
-    </form>
-    <?php else:?>
+            foreach ($testObj["questions"] as $key => $elem):?>
+                <p><?= $elem ?></p>
+                <?php
+                foreach ($testObj["answers"][$key] as $ans):?>
+                    <?php if ($ans == "free"): ?>
+                        <input type="text" name="<?= $elem ?>"><br>
+                    <?php else: ?>
+                        <input required type="radio" name="<?= $elem ?>" value="<?= $ans ?>"><?= $ans ?><br>
+                    <?php endif; endforeach; endforeach; ?>
+            <input type="submit" value="Завершить тест">
+        </form>
+    <?php else: ?>
         <h1>Вы уже прошли тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
-        <img src="<?= "certificates/".$certName?>">
-    <?php endif;?>
+        <img src="<?= "certificates/" . $certName ?>">
+    <?php endif; ?>
 </main>
 </body>
 </html>

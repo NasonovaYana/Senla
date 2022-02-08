@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +15,10 @@ session_start();
 </head>
 <body>
 <div class="menu">
-    <div class="menu-item"><a href="index_admin.php">Войти как администратор</a></div>
+    <div class="menu-item"><a href="indexAdmin.php">Войти как администратор</a></div>
 </div>
 <main>
-    <form method="post" action="code/authorization_guest.php">
+    <form method="post" action="code/authorizationGuest.php">
         <input required name = 'userName' placeholder="Введите имя">
         <input type="submit" value="Войти">
     </form>

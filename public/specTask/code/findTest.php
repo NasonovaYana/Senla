@@ -1,12 +1,11 @@
 <?php
-session_start();
 
 if (isset($_GET["test"])) {
     $chosenTest = $_GET["test"].'.json';
     $_SESSION['test'] = $chosenTest;
 }
 if(!file_exists("upload_tests/" .$_SESSION['test'])){
-    header("HTTP/1.0 404 Not Found");
+    http_response_code(404);
     exit;
 }
 $certificates = scandir("certificates");

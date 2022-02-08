@@ -1,5 +1,6 @@
 <?php
 include "code/fileUpload.php";
+/** @var $fileError int|null */
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +29,11 @@ include "code/fileUpload.php";
         <input required type="file" name='newTest'>
         <input type="submit">
     </form>
-
+    <?php if(isset($_SESSION['fileError']) and $_SESSION['fileError'] == 0):?>
+    <h1>Формат файла неверный. Загрузите файл формата json</h1>
+    <?php
+     unset($_SESSION['fileError']);
+    endif;?>
 </main>
 </body>
 </html>

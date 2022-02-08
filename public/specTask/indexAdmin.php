@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "code/passWrong.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,14 +15,19 @@ session_start();
 </head>
 <body>
 <div class="menu">
-    <div class="menu-item"><a href="index_guest.php">Войти как гость</a></div>
+    <div class="menu-item"><a href="indexGuest.php">Войти как гость</a></div>
 </div>
 <main>
-    <form method="post" action="code/authorization_admin.php">
-        <input name = 'adminName' placeholder="Введите имя">
+    <form method="post" action="code/authorizationAdmin.php">
+        <input name='adminName' placeholder="Введите имя">
         <input name="adminPass" type="password" placeholder="Введите пароль">
         <input type="submit" value="Войти">
     </form>
+    <?php if ($_SESSION['passWrong'] == 1): ?>
+        <h1> Пароль неверный! </h1>
+        <?php
+        unset($_SESSION['passWrong']);
+    endif; ?>
 </main>
 </body>
 </html>

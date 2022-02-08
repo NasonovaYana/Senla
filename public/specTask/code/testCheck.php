@@ -1,5 +1,4 @@
 <?php
-session_start();
 $_SESSION['openCert'] = 1;
 $nameUser = $_SESSION['userName'];
 $userAns = $_POST;
@@ -10,15 +9,15 @@ $json = file_get_contents("upload_tests/" . $nameTest);
 $testArr = json_decode($json, true);
 $minPoints = $testArr["minimal"];
 $allQw = count($testArr["right"]);
-$rightAns=$testArr["right"];
+$rightAns = $testArr["right"];
 $mistakes = [];
 $_SESSION['allQw'] = $allQw;
 
-foreach ($userAns as $key=>$elem){
-    if($elem == $rightAns[$key]){
+foreach ($userAns as $key => $elem) {
+    if ($elem == $rightAns[$key]) {
         $count++;
-    }else{
-        $mistakes[]=[$testArr["questions"][$key],$elem,$rightAns[$key]];
+    } else {
+        $mistakes[] = [$testArr["questions"][$key], $elem, $rightAns[$key]];
     }
 }
 

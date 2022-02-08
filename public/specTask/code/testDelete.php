@@ -3,7 +3,7 @@ session_start();
 if (isset($_GET["testDelete"])) {
     $chosenTest = $_GET["testDelete"];
     if (!file_exists("../upload_tests/" . $chosenTest)) {
-        header("HTTP/1.0 404 Not Found");
+        http_response_code(404);
         exit;
     } else {
         unlink("../upload_tests/" . $chosenTest);
