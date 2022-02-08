@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (session_status() != 2 or empty($_SESSION['status'])) {
     http_response_code(403);
     exit;

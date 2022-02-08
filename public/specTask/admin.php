@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "code/fileUpload.php";
 /** @var $fileError int|null */
 ?>

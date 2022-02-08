@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "code/sessionActiveCheck.php";
+
 include "code/certCode.php";
 /** @var $path string|null */
 ?>

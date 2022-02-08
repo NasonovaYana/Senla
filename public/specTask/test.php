@@ -1,9 +1,11 @@
 <?php
 session_start();
+include "code/sessionActiveCheck.php";
 
 include "code/findTest.php";
+
 /** @var $chosenTest string|null */
-/** @var $testObj array|null */
+/** @var $questions array|null */
 /** @var $certExist bool|null */
 /** @var $certName string|null */
 ?>
@@ -33,15 +35,13 @@ include "code/findTest.php";
         <h1>Тест: <?= str_replace('.json', '', $chosenTest) ?></h1>
         <form method="post" action="check.php">
             <?php
-            foreach ($testObj["questions"] as $key => $elem):?>
-                <p><?= $elem ?></p>
-                <?php
-                foreach ($testObj["answers"][$key] as $ans):?>
-                    <?php if ($ans == "free"): ?>
-                        <input type="text" name="<?= $elem ?>"><br>
-                    <?php else: ?>
-                        <input required type="radio" name="<?= $elem ?>" value="<?= $ans ?>"><?= $ans ?><br>
-                    <?php endif; endforeach; endforeach; ?>
+            foreach ($questions as $key=>$task):?>
+                <p> <?= $task["qw"]?></p>
+                <?php if($task['free']==1):?>
+                    <input type="text" name="<?= $key ?>"><br>
+                <?php else: foreach ($task['ans'] as $ans):?>
+                    <input required type="radio" name="<?= $key?>" value="<?= $ans ?>"><?= $ans ?><br>
+                <?php endforeach; endif; endforeach;?>
             <input type="submit" value="Завершить тест">
         </form>
     <?php else: ?>

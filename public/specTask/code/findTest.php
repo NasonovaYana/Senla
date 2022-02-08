@@ -19,3 +19,4 @@ foreach ($certificates as $elem){
 else{$certExist = 0;}}
 $json = file_get_contents("upload_tests/" . $chosenTest);
 $testObj = json_decode($json, true);
+$questions = $testObj['questions'];
