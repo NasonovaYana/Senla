@@ -25,6 +25,7 @@ include "code/certCode.php";
         <div class="menu-item"><a href="delete.php">Удаление тестов</a></div>
     <?php endif; ?>
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
+    <div class="menu-item"><a href="code/exit.php">Выйти</a></div>
 </div>
 
 <main>

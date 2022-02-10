@@ -1,4 +1,5 @@
 <?php
+include "certifCreate.php";
 if(empty($_POST)){
     $new_url = 'http://localhost:8080/specTask/list.php';
     header('Location: ' . $new_url);
@@ -29,3 +30,6 @@ foreach ($userAns as $key => $elem) {
 }
 
 $_SESSION['count'] = $count;
+if ($count>=$minPoints){
+    certificatePng($_SESSION['userName'], $count, $allQw);
+}

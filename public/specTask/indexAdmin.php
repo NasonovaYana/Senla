@@ -24,7 +24,7 @@ include "code/passWrong.php";
         <input type="submit" value="Войти">
     </form>
     <?php if ($_SESSION['passWrong'] == 1): ?>
-        <h1> Пароль неверный! </h1>
+        <h1> Неверный логин или пароль! </h1>
         <?php
         unset($_SESSION['passWrong']);
     endif; ?>

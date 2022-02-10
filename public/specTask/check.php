@@ -1,9 +1,7 @@
 <?php
 session_start();
-
 include "code/sessionActiveCheck.php";
 include "code/testCheck.php";
-include "code/certifCreate.php";
 /** @var $count int|null */
 /** @var $allQw int|null */
 /** @var $mistakes array|null */
@@ -30,6 +28,7 @@ include "code/certifCreate.php";
         endif;
     ?>
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
+    <div class="menu-item"><a href="code/exit.php">Выйти</a></div>
 </div>
 
 <main>

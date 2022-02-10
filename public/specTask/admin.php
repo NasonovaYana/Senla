@@ -23,6 +23,7 @@ include "code/fileUpload.php";
         <div class="menu-item"><a href="delete.php">Удаление тестов</a></div>
     <?php endif; ?>
     <div class="menu-item"><a href="list.php">Список тестов</a></div>
+    <div class="menu-item"><a href="code/exit.php">Выйти</a></div>
 </div>
 <main>
     <form method="post" enctype="multipart/form-data">
@@ -34,6 +35,11 @@ include "code/fileUpload.php";
     <h1>Формат файла неверный. Загрузите файл формата json</h1>
     <?php
      unset($_SESSION['fileError']);
+    endif;?>
+    <?php if(isset($_SESSION['jsonError']) and $_SESSION['jsonError'] == 0):?>
+        <h1>Структура файла не отвечает требованиям json.</h1>
+        <?php
+        unset($_SESSION['jsonError']);
     endif;?>
 </main>
 </body>

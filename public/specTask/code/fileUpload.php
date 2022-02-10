@@ -1,24 +1,33 @@
 <?php
-if (session_status() != 2 or empty($_SESSION['status'])) {
-    http_response_code(403);
-    exit;
+function validJson($test){
+    $string = file_get_contents($test);
+    return is_string( $string) && is_array(json_decode($string, true)) && (json_last_error() == JSON_ERROR_NONE) ? true : false;
 }
-if ($_SESSION['status'] == "admin") {
+$new_url='';
+if (session_status() != 2 or empty($_SESSION['status']) or $_SESSION['status'] != "admin") {
+    unset($_SESSION['status']);
+    $new_url = 'http://localhost:8080/specTask/indexAdmin.php';
+}
+else{
     if (isset($_POST['fileName']) and isset($_FILES['newTest']['tmp_name'])) {
+        if(!validJson($_FILES['newTest']['tmp_name'])){
+            $_SESSION['jsonError'] = 0;
+            $new_url = 'http://localhost:8080/specTask/admin.php';
+            header('Location: ' . $new_url);
+            exit;
+        }
         if (substr($_FILES['newTest']['name'], -5) != ".json") {
             $_SESSION['fileError'] = 0;
             $new_url = 'http://localhost:8080/specTask/admin.php';
-            header('Location: ' . $new_url);
+
         } else {
             $fileName = $_POST['fileName'];
             $tmpPath = $_FILES['newTest']['tmp_name'];
             move_uploaded_file($tmpPath, "upload_tests/" . $fileName . ".json");
             $new_url = 'http://localhost:8080/specTask/list.php';
-            header('Location: ' . $new_url);
 
         }
     }
-} else {
-    http_response_code(403);
-    exit;
+
 }
+header('Location: ' . $new_url);
