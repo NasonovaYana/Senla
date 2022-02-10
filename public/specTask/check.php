@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "code/sessionActiveCheck.php";
 include "code/testCheck.php";
 /** @var $count int|null */

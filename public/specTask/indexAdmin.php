@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "code/passWrong.php";
 ?>
 <!DOCTYPE html>

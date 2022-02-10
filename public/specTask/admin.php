@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "code/adminStatusCheck.php";
 include "code/fileUpload.php";
 /** @var $fileError int|null */
 ?>

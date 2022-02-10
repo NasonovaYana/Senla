@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 if (isset($_POST['adminName']) and isset($_POST['adminPass'])) {
     // $json = file_get_contents("admin/" . $_POST['adminName'].'.json');
     $json = file_get_contents("../admin/admin.json");
