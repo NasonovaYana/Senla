@@ -1,5 +1,7 @@
 <?php
 
+// TODO в функциях есть один минус, они жестко завязаны на конкретные поля. Подумай, как это можно исправить.
+// Подсказка: Вместо 4-х функций можно было бы сделать одну с одной строкой в цикле.
 function dbOutputWorkers($qw)
 {
     while ($mass = mysqli_fetch_array($qw)) {
@@ -44,7 +46,7 @@ function dbOutputWorkersDescription($qw)
 }
 
 
-$connection = mysqli_connect('localhost', 'root', '1234', 'senla');
+$connection = mysqli_connect('mysql', 'root', 'root', 'default');
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -80,6 +82,7 @@ echo "Выбрать работников с зарплатой равной и�
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE salary<=900');
 dbOutputWorkers($qw);
 
+// TODO Тебе нужны только возраст и з/п, стоит ли выбирать все столбцы?
 echo "Узнайте зарплату и возраст Васи.<br>";
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE name = "Вася"');
 while ($mass = mysqli_fetch_array($qw)) {
@@ -125,19 +128,19 @@ dbOutputWorkers($qw);
 //На INSERT
 
 echo "<br>Добавьте нового работника Никиту, 26 лет, зарплата 300$. Воспользуйтесь первым синтаксисом.<br>";
-$query = "INSERT INTO workers SET id=7, name= 'Никита', age = 26, salary=300";
+$query = "INSERT INTO workers SET name= 'Никита', age = 26, salary=300";
 //mysqli_query($connection, $query);
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE name="Никита"');
 dbOutputWorkers($qw);
 
 echo "Добавьте нового работника Светлану с зарплатой 1200$. Воспользуйтесь вторым синтаксисом.<br>";
-$query = "INSERT INTO workers (id, name, age, salary) VALUES (8, 'Светлана', 26, 1200)";
+$query = "INSERT INTO workers (name, age, salary) VALUES ('Светлана', 26, 1200)";
 //mysqli_query($connection, $query);
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE id =8');
 dbOutputWorkers($qw);
 
 echo "Добавьте двух новых работников одним запросом: Ярослава с зарплатой 1200$ и возрастом 30, Петра с зарплатой 1000$ и возрастом 31.<br>";
-$query = "INSERT INTO workers (id, name, age, salary) VALUES (9, 'Ярослав', 30, 1200),(10, 'Петр', 31, 1000)";
+$query = "INSERT INTO workers (name, age, salary) VALUES ('Ярослав', 30, 1200),('Петр', 31, 1000)";
 //mysqli_query($connection, $query);
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE id =9 OR id =10');
 dbOutputWorkers($qw);
@@ -213,6 +216,7 @@ $query = 'SELECT * FROM workers ORDER BY salary DESC';
 $qw = mysqli_query($connection, $query);
 dbOutputWorkers($qw);
 
+// TODO не работает, как ожидалось
 echo "Из таблицы workers достаньте работников со второго по шестого и отсортируйте их по возрастанию возраста.<br>";
 $query = 'SELECT * FROM workers ORDER BY age LIMIT 1,5 ';
 $qw = mysqli_query($connection, $query);
@@ -243,6 +247,7 @@ $query = "SELECT * FROM pages WHERE article LIKE '%элемент%' ";
 $qw = mysqli_query($connection, $query);
 dbOutputPages($qw);
 
+// TODO % - это неограниченное количество знаков, а по заданию, нужен только 1.
 echo "В таблице workers найти строки, в которых возраст работника начинается с числа 3, а далее идет только одна цифра.<br>";
 $query = "SELECT * FROM workers WHERE age LIKE '3%' ";
 $qw = mysqli_query($connection, $query);
@@ -529,6 +534,7 @@ while ($mass = mysqli_fetch_array($qw)) {
     echo $date . "<br>";
 }
 
+// TODO как вывести поля из таблицы вместе с res?
 //На математические операции
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет число 3.<br>";
 $query = 'SELECT 3 as res FROM workers';
@@ -554,6 +560,7 @@ while ($mass = mysqli_fetch_array($qw)) {
     echo $res . "<br>";
 }
 
+// TODO имеется в виду сумма age + salary для каждой строки, по всем строкам сразу
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет лежать сумма зарплаты и возраста.<br>";
 $query = 'SELECT SUM(age + salary) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
@@ -561,7 +568,7 @@ while ($mass = mysqli_fetch_array($qw)) {
     $res = $mass['res'];
     echo $res . "<br>";
 }
-
+// TODO см выше
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет лежать разность зарплаты и возраста.<br>";
 $query = 'SELECT SUM(salary - age) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
@@ -570,6 +577,7 @@ while ($mass = mysqli_fetch_array($qw)) {
     echo $res . "<br>";
 }
 
+// TODO см выше
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет лежать произведение зарплаты и возраста.<br>";
 $query = 'SELECT SUM(salary*age) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
@@ -620,7 +628,7 @@ while ($mass = mysqli_fetch_array($qw)) {
 //На UNION
 echo "<br>Даны две таблицы: таблица category и таблица sub_category с полями id и name. Достаньте одним запросом названия категорий и подкатегорий.<br>";
 $query = 'SELECT name FROM category UNION SELECT name FROM sub_category';
-$qw = mysqli_query($connection, $query);
+//$qw = mysqli_query($connection, $query);
 while ($mass = mysqli_fetch_array($qw)) {
     $res = $mass['name'];
     echo $res . "<br>";
@@ -759,7 +767,7 @@ while ($mass = mysqli_fetch_array($qw)) {
 
 //На работу с полями. Задачи данного блока следует решать SQL запросами, а не через PhpMyAdmin.
 //Создайте базы данных test1 и test2.
-$connection = mysqli_connect('localhost', 'root', '1234');
+$connection = mysqli_connect('mysql', 'root', 'root');
 $query = "CREATE DATABASE test1";
 $qw = mysqli_query($connection, $query);
 $query = "CREATE DATABASE test2";
@@ -780,12 +788,14 @@ $qw = mysqli_query($connection, $query);
 $query = "DROP TABLE table3";
 $qw = mysqli_query($connection, $query);
 //Добавьте в таблицу table1 поле status.
+// TODO так поле не добавится
 $query = "ALTER TABLE table1 ALTER COLUMN status";
 $qw = mysqli_query($connection, $query);
 //Удалите из таблицы table1 поле age.
 $query = "ALTER TABLE table1 DROP COLUMN age";
 $qw = mysqli_query($connection, $query);
 //Переименуйте поле login на user_login.
+// TODO не сработает
 $query = " RENAME COLUMN login TO user_login";
 $qw = mysqli_query($connection, $query);
 //Смените типа поля salary с int на varchar(255).
