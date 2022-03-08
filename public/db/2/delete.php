@@ -2,8 +2,8 @@
 include 'connection.php';
 /** @var $connection  Object|null */
 
-if(isset($_GET['del_id'])){
-    $id = $_GET['del_id'];
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
     echo $id;
     $query = "DELETE FROM workers WHERE id = $id";
     $qw = mysqli_query($connection, $query);

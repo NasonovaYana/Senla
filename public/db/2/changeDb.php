@@ -3,7 +3,7 @@ session_start();
 include "connection.php";
 /** @var $connection  Object|null */
 //{$workerName},{$workerAge},{$workerSalary}
-$id = $_SESSION['change_id'];
+$id = $_SESSION['id'];
 
 if (isset($_POST["changeName"]) && isset($_POST["changeAge"]) && isset($_POST["changeSalary"])) {
     $namePost = mysqli_real_escape_string($connection, $_POST["changeName"]);

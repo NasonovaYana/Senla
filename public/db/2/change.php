@@ -2,8 +2,8 @@
 session_start();
 include 'connection.php';
 /** @var $connection  Object|null */
-$_SESSION['change_id'] = $_GET['change_id'];
-$id = $_GET['change_id'];
+$_SESSION['id'] = $_GET['id'];
+$id = $_GET['id'];
 $result = mysqli_query($connection, "SELECT * from workers WHERE id=$id");
 while ($mass = mysqli_fetch_array($result)) {
     $id = $mass['id'];

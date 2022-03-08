@@ -1,5 +1,5 @@
 <?php
-
+//вместо полей выводить в implode; заменить на acos заголовки; ключи, данные в таблицы
 function dbOutputWorkers($qw)
 {
     while ($mass = mysqli_fetch_array($qw)) {

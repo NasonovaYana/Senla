@@ -3,12 +3,12 @@ include 'connection.php';
 include "delete.php";
 /** @var $connection  Object|null */
 
-$count = 2;
+$limit = 2;
 $result = mysqli_query($connection, "SELECT * from workers");
-$pageNum = mysqli_num_rows($result);
-$pageNum = round($pageNum / $count);
-if (isset($_GET['str'])) {
-    $nav = $_GET['str'];
+$pageCount = mysqli_num_rows($result);
+$pageCount = round($pageCount / $limit);
+if (isset($_GET['pageCurrent'])) {
+    $nav = $_GET['pageCurrent'];
 } else {
     $nav = 0;
 }
@@ -28,9 +28,9 @@ $nav = intval($nav);
 <body>
 <h3>Навигация</h3>
 <?php
-for ($i = 1; $i <= $pageNum; $i++):
+for ($i = 1; $i <= $pageCount; $i++):
     if ($i != $nav):?>
-        <a href="index.php?str=<?= $i ?>"><?= $i ?></a>
+        <a href="index.php?pageCurrent=<?= $i ?>"><?= $i ?></a>
     <?php
     else:?>
         <span><?= $i ?></span>
@@ -45,22 +45,22 @@ for ($i = 1; $i <= $pageNum; $i++):
         <td>Зарплата</td>
     </tr>
     <?php
-    if (!isset($_GET['str'])) {
-        $str = 0;
+    if (!isset($_GET['pageCurrent'])) {
+        $page = 0;
     } else {
-        $str = $_GET['str'] * $count - $count;
+        $page = $_GET['pageCurrent'] * $limit - $limit;
     }
-    $num = $str + 2;
-    $result = mysqli_query($connection, "SELECT * FROM workers LIMIT $str, $num");
-    while ($mass = mysqli_fetch_array($result)):?>
+    $num = $page + 2;
+    $result = mysqli_query($connection, "SELECT * FROM workers LIMIT $page, $num");
+    while ($workers = mysqli_fetch_array($result)):?>
         <tr>
-            <td><p><?= $mass['id'] ?></p></td>
-            <td><p><b><?= $mass['name'] ?></b></p></td>
-            <td><p><?= $mass['age'] ?></td>
-            <td><p><?= $mass['salary'] ?></td>
+            <td><p><?= $workers['id'] ?></p></td>
+            <td><p><b><?= $workers['name'] ?></b></p></td>
+            <td><p><?= $workers['age'] ?></td>
+            <td><p><?= $workers['salary'] ?></td>
             </p>
-            <td><a href='delete.php?del_id=<?= $mass['id'] ?>'>Удалить</a></td>
-            <td><a href='change.php?change_id=<?= $mass['id'] ?>'>Редактировать</a></td>
+            <td><a href='delete.php?id=<?= $workers['id'] ?>'>Удалить</a></td>
+            <td><a href='change.php?id=<?= $workers['id'] ?>'>Редактировать</a></td>
         </tr>
     <?php endwhile; ?>
 </table>
