@@ -1,11 +1,12 @@
 <?php
-include 'connection.php';
-include "delete.php";
-/** @var $connection  Object|null */
+include 'code.php';
+
+///** @var $connection  Object|null */
 
 $limit = 2;
-$result = mysqli_query($connection, "SELECT * from workers");
-$pageCount = mysqli_num_rows($result);
+$result = get();
+$pageCount = countRow();
+//$pageCount = mysqli_num_rows($result);
 $pageCount = round($pageCount / $limit);
 if (isset($_GET['pageCurrent'])) {
     $nav = $_GET['pageCurrent'];
@@ -13,6 +14,7 @@ if (isset($_GET['pageCurrent'])) {
     $nav = 0;
 }
 $nav = intval($nav);
+//include "delete.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,16 +53,15 @@ for ($i = 1; $i <= $pageCount; $i++):
         $page = $_GET['pageCurrent'] * $limit - $limit;
     }
     $num = $page + 2;
-    $result = mysqli_query($connection, "SELECT * FROM workers LIMIT $page, $num");
+    $result = get($page,$num);
     while ($workers = mysqli_fetch_array($result)):?>
         <tr>
-            <td><p><?= $workers['id'] ?></p></td>
             <td><p><b><?= $workers['name'] ?></b></p></td>
             <td><p><?= $workers['age'] ?></td>
             <td><p><?= $workers['salary'] ?></td>
             </p>
             <td><a href='delete.php?id=<?= $workers['id'] ?>'>Удалить</a></td>
-            <td><a href='change.php?id=<?= $workers['id'] ?>'>Редактировать</a></td>
+            <td><a href='update.php?id=<?= $workers['id']?>'>Редактировать</a></td>
         </tr>
     <?php endwhile; ?>
 </table>

@@ -1,9 +1,21 @@
 <?php
-include "code.php";
-function inputCreate($name){
-    echo "<input name =$name required>";
+include 'code.php';
+$_SESSION['id'] = $_GET['id'];
+$id = $_GET['id'];
+$result = getById($id);
+
+while ($workers = mysqli_fetch_array($result)) {
+    $id = $workers['id'];
+    $name = $workers['name'];
+    $age = $workers['age'];
+    $salary = $workers['salary'];
 }
- ?>
+
+if(!isset($name)){
+    http_response_code(404);
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,11 +30,11 @@ function inputCreate($name){
 <body>
 <form method="post" action="code.php">
     <label>Имя</label>
-    <?php inputCreate('workerName');?>
+    <input name="changeName" placeholder="Имя" value="<?= $name ?>">
     <label>Возраст</label>
-    <?php inputCreate('workerAge');?>
+    <input name="changeAge" placeholder="Возраст" value="<?= $age ?>">
     <label>Зарплата</label>
-    <?php inputCreate('workerSalary');?>
+    <input name="changeSalary" placeholder="Зарплата" value="<?= $salary ?>">
     <input type="submit">
 </form>
 <a href="index.php">Главная</a>
