@@ -1,20 +1,9 @@
 <?php
-include 'code.php';
 $_SESSION['id'] = $_GET['id'];
-$id = $_GET['id'];
-$result = getById($id);
-
-while ($workers = mysqli_fetch_array($result)) {
-    $id = $workers['id'];
-    $name = $workers['name'];
-    $age = $workers['age'];
-    $salary = $workers['salary'];
-}
-
-if(!isset($name)){
-    http_response_code(404);
-    exit();
-}
+include 'updateCode.php';
+/** @var $name string|null */
+/** @var $age string|null */
+/** @var $salary string|null */
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +17,7 @@ if(!isset($name)){
     <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<form method="post" action="code.php">
+<form method="post" action="sendUpdate.php">
     <label>Имя</label>
     <input name="changeName" placeholder="Имя" value="<?= $name ?>">
     <label>Возраст</label>

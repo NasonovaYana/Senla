@@ -1,8 +1,5 @@
 <?php
-include "code.php";
-function inputCreate($name){
-    echo "<input name =$name required>";
-}
+include 'addCode.php';
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +13,7 @@ function inputCreate($name){
     <link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<form method="post" action="code.php">
+<form method="post" action="addCode.php">
     <label>Имя</label>
     <?php inputCreate('workerName');?>
     <label>Возраст</label>

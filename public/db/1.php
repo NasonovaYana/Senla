@@ -1,55 +1,27 @@
 <?php
-
-//вместо полей выводить в implode; заменить на acos заголовки; ключи, данные в таблицы
-
-
-// TODO в функциях есть один минус, они жестко завязаны на конкретные поля. Подумай, как это можно исправить.
-// Подсказка: Вместо 4-х функций можно было бы сделать одну с одной строкой в цикле.
+// TODO ИСПРАВЛЕНО в функциях есть один минус, они жестко завязаны на конкретные пол
 function dbOutputWorkers($qw)
 {
-    while ($mass = mysqli_fetch_array($qw)) {
-        $id = $mass['id'];
-        $name = $mass['name'];
-        $age = $mass['age'];
-        $salary = $mass['salary'];
-        $login = $mass['login'];
-        echo $id . " " . $name . " " . $age . " " . $salary . " " . $login . "<br>";
-    }
+       while($mass = mysqli_fetch_assoc($qw)){
+        $str = implode(' ', $mass);
+        echo $str.'<br>';}
+    echo '<br>';
 }
 
-function dbOutputWorkersDate($qw)
-{
-    while ($mass = mysqli_fetch_array($qw)) {
-        $id = $mass['id'];
-        $name = $mass['name'];
-        $age = $mass['age'];
-        $salary = $mass['salary'];
-        $login = $mass['login'];
-        $date = $mass['date'];
-        echo $id . " " . $name . " " . $age . " " . $salary . " " . $login . " " . $date . "<br>";
-    }
-}
 
 function dbOutputPages($qw)
 {
-    while ($mass = mysqli_fetch_array($qw)) {
-        $id = $mass['id'];
-        $name = $mass['athor'];
-        $article = $mass['article'];
-        echo $id . " " . $name . " " . $article . "<br>";
+    while ($mass = mysqli_fetch_assoc($qw)) {
+        $str = implode(' ', $mass);
+        echo $str.'<br>';
     }
-}
-
-function dbOutputWorkersDescription($qw)
-{
-    while ($mass = mysqli_fetch_array($qw)) {
-        $description = $mass['description'];
-        echo $description . "<br>";
-    }
+    echo '<br>';
 }
 
 
-$connection = mysqli_connect('mysql', 'root', 'root', 'default');
+
+
+$connection = mysqli_connect('localhost', 'root', '1234', 'senla');
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -85,14 +57,10 @@ echo "Выбрать работников с зарплатой равной и�
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE salary<=900');
 dbOutputWorkers($qw);
 
-// TODO Тебе нужны только возраст и з/п, стоит ли выбирать все столбцы?
+// TODO ИСПРАВЛЕНО Тебе нужны только возраст и з/п, стоит ли выбирать все столбцы?
 echo "Узнайте зарплату и возраст Васи.<br>";
-$qw = mysqli_query($connection, 'SELECT * FROM workers WHERE name = "Вася"');
-while ($mass = mysqli_fetch_array($qw)) {
-    $salary = $mass['salary'];
-    $age = $mass['age'];
-    echo $salary . " " . $age . "<br>";
-}
+$qw = mysqli_query($connection, 'SELECT salary, age FROM workers WHERE name = "Вася"');
+dbOutputWorkers($qw);
 
 //На OR и AND
 
@@ -131,19 +99,19 @@ dbOutputWorkers($qw);
 //На INSERT
 
 echo "<br>Добавьте нового работника Никиту, 26 лет, зарплата 300$. Воспользуйтесь первым синтаксисом.<br>";
-$query = "INSERT INTO workers SET name= 'Никита', age = 26, salary=300";
+$query = "INSERT INTO workers SET id=7, name= 'Никита', age = 26, salary=300";
 //mysqli_query($connection, $query);
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE name="Никита"');
 dbOutputWorkers($qw);
 
 echo "Добавьте нового работника Светлану с зарплатой 1200$. Воспользуйтесь вторым синтаксисом.<br>";
-$query = "INSERT INTO workers (name, age, salary) VALUES ('Светлана', 26, 1200)";
+$query = "INSERT INTO workers (id, name, age, salary) VALUES (8, 'Светлана', 26, 1200)";
 //mysqli_query($connection, $query);
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE id =8');
 dbOutputWorkers($qw);
 
 echo "Добавьте двух новых работников одним запросом: Ярослава с зарплатой 1200$ и возрастом 30, Петра с зарплатой 1000$ и возрастом 31.<br>";
-$query = "INSERT INTO workers (name, age, salary) VALUES ('Ярослав', 30, 1200),('Петр', 31, 1000)";
+$query = "INSERT INTO workers (id, name, age, salary) VALUES (9, 'Ярослав', 30, 1200),(10, 'Петр', 31, 1000)";
 //mysqli_query($connection, $query);
 $qw = mysqli_query($connection, 'SELECT * FROM workers WHERE id =9 OR id =10');
 dbOutputWorkers($qw);
@@ -219,11 +187,13 @@ $query = 'SELECT * FROM workers ORDER BY salary DESC';
 $qw = mysqli_query($connection, $query);
 dbOutputWorkers($qw);
 
-// TODO не работает, как ожидалось
+// TODO ИСПРАВЛЕНО не работает, как ожидалось
 echo "Из таблицы workers достаньте работников со второго по шестого и отсортируйте их по возрастанию возраста.<br>";
-$query = 'SELECT * FROM workers ORDER BY age LIMIT 1,5 ';
+//$query = 'SELECT * FROM workers ORDER BY age LIMIT 1,5 ';
+$query = 'SELECT * FROM workers WHERE id>1 AND id<7 ORDER BY age';
 $qw = mysqli_query($connection, $query);
 dbOutputWorkers($qw);
+
 
 //На COUNT
 echo "<br>В таблице workers подсчитайте всех работников.<br>";
@@ -250,9 +220,9 @@ $query = "SELECT * FROM pages WHERE article LIKE '%элемент%' ";
 $qw = mysqli_query($connection, $query);
 dbOutputPages($qw);
 
-// TODO % - это неограниченное количество знаков, а по заданию, нужен только 1.
+// TODO ИСПРАВЛЕНО % - это неограниченное количество знаков, а по заданию, нужен только 1.
 echo "В таблице workers найти строки, в которых возраст работника начинается с числа 3, а далее идет только одна цифра.<br>";
-$query = "SELECT * FROM workers WHERE age LIKE '3%' ";
+$query = "SELECT * FROM workers WHERE age LIKE '3_' ";
 $qw = mysqli_query($connection, $query);
 dbOutputWorkers($qw);
 
@@ -293,12 +263,7 @@ dbOutputWorkers($qw);
 echo "Выберите из таблицы workers все записи так, чтобы вместо id было userId, вместо login – userLogin, вместо salary - userSalary.<br>";
 $query = "SELECT id AS userId, login as userLogin, salary as userSalary FROM workers";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $id = $mass['userId'];
-    $salary = $mass['userSalary'];
-    $login = $mass['userLogin'];
-    echo $id . " " . $salary . " " . $login . "<br>";
-}
+dbOutputWorkers($qw);
 
 //На DISTINCT
 echo "Выберите из таблицы workers все записи так, чтобы туда попали только записи с разной зарплатой (без дублей).<br>";
@@ -381,43 +346,43 @@ $qw = mysqli_query($connection, $query);
 echo "<br>Выберите из таблицы workers все записи за 2016 год.<br>";
 $query = 'SELECT * FROM workers WHERE YEAR(date)=2016';
 $qw = mysqli_query($connection, $query);
-dbOutputWorkersDate($qw);
+dbOutputWorkers($qw);
 
 echo "Выберите из таблицы workers все записи за март любого года.<br>";
 $query = 'SELECT * FROM workers WHERE MONTH(date)=03';
 $qw = mysqli_query($connection, $query);
-dbOutputWorkersDate($qw);
+dbOutputWorkers($qw);
 
 echo "Выберите из таблицы workers все записи за третий день месяца.<br>";
 $query = 'SELECT * FROM workers WHERE DAY(date)=03';
 $qw = mysqli_query($connection, $query);
-dbOutputWorkersDate($qw);
+dbOutputWorkers($qw);
 
 echo "Выберите из таблицы workers все записи за пятый день апреля любого года.<br>";
 $query = 'SELECT * FROM workers WHERE DAY(date)=05 AND MONTH(date)=04';
 $qw = mysqli_query($connection, $query);
-dbOutputWorkersDate($qw);
+dbOutputWorkers($qw);
 
 echo "Выберите из таблицы workers все записи за следующие дни любого месяца: 1, 7, 11, 12, 15, 19, 21, 29.<br>";
 $query = 'SELECT * FROM workers WHERE DAY(date) IN (1, 7, 11, 12, 15, 19, 21, 29)';
 $qw = mysqli_query($connection, $query);
-dbOutputWorkersDate($qw);
+dbOutputWorkers($qw);
 
 
 echo "Выберите из таблицы workers все записи за вторник.<br>";
 $query = 'SELECT * FROM workers WHERE DAYOFWEEK(date)=3';
 $qw = mysqli_query($connection, $query);
-dbOutputWorkersDate($qw);
+dbOutputWorkers($qw);
 
 echo "Выберите из таблицы workers все записи за первую декаду любого месяца 2016 года.<br>";
 $query = 'SELECT * FROM workers WHERE DAY(date)<11 AND YEAR(date)=2016';
 $qw = mysqli_query($connection, $query);
-dbOutputWorkersDate($qw);
+dbOutputWorkers($qw);
 
 echo "Выберите из таблицы workers все записи, в которых день меньше месяца.<br>";
 $query = 'SELECT * FROM workers WHERE DAY(date)<MONTH (date)';
 $qw = mysqli_query($connection, $query);
-dbOutputWorkersDate($qw);
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers запишите день, месяц и год в отдельные поля.<br>";
 $query = 'SELECT DAY(date) AS day, MONTH(date) AS month, YEAR(date) AS year FROM workers';
@@ -442,118 +407,77 @@ while ($mass = mysqli_fetch_array($qw)) {
 echo "При выборке из таблицы workers запишите день, месяц и год в отдельное поле с помощью DATE в формате 'год-месяц-день'.<br>";
 $query = 'SELECT DATE(date) as date FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 //На DATE_FORMAT
 echo "При выборке из таблицы workers выведите дату в формате '31.12.2025'.<br>";
 $query = "SELECT DATE_FORMAT(date, '%d.%m.%Y') as date FROM workers";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers выведите дату в формате '2025% 31.12'.<br>";
 $query = "SELECT DATE_FORMAT(date, '%Y%% %d.%m') as date FROM workers";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 //На INTERVAL, DATE_ADD, DATE_SUB
 echo "При выборке из таблицы workers прибавьте к дате 1 день.<br>";
 $query = "SELECT  date + INTERVAL 1 DAY as date FROM workers";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers отнимите от даты 1 день.<br>";
 $query = "SELECT  date -  INTERVAL 1 DAY as date FROM workers";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers прибавьте к дате 1 день, 2 часа.<br>";
 $query = "SELECT DATE_ADD(date, INTERVAL '1:2' DAY_HOUR) as date FROM workers ";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers прибавьте к дате 1 год, 2 месяца.<br>";
 $query = "SELECT DATE_ADD(date, INTERVAL '1:2' YEAR_MONTH) as date FROM workers ";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers прибавьте к дате 1 день, 2 часа, 3 минуты.<br>";
 $query = 'SELECT DATE_ADD(date, INTERVAL "1 2:3" DAY_MINUTE) as date FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers прибавьте к дате 1 день, 2 часа, 3 минуты, 5 секунд.<br>";
 $query = 'SELECT DATE_ADD(date, INTERVAL "1 2:3:5" DAY_SECOND) as date FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers прибавьте к дате 2 часа, 3 минуты, 5 секунд.<br>";
 $query = 'SELECT DATE_ADD(date, INTERVAL "2:3:5" HOUR_SECOND) as date FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers прибавьте к дате 1 день и отнимите 2 часа.<br>";
 $query = 'SELECT DATE_ADD(date, INTERVAL 1 -2 DAY_HOUR) as date FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers прибавьте к дате 1 день и отнимите 2 часа, 3 минуты.<br>";
 $query = 'SELECT DATE_ADD(date, INTERVAL 1 -2 -3 DAY_MINUTE) as date FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $date = $mass['date'];
-    echo $date . "<br>";
-}
+dbOutputWorkers($qw);
 
-// TODO как вывести поля из таблицы вместе с res?
+// TODO ИСПРАВЛЕНО (в первой задаче) как вывести поля из таблицы вместе с res?
 //На математические операции
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет число 3.<br>";
-$query = 'SELECT 3 as res FROM workers';
+$query = 'SELECT *, 3 as res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
+exit();
 
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет строка 'eee'.<br>";
 $query = 'SELECT "eee" as res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers создайте новое поле 3, в котором будет число 3.<br>";
 $query = 'SELECT 3 FROM workers';
@@ -562,40 +486,26 @@ while ($mass = mysqli_fetch_array($qw)) {
     $res = $mass[3];
     echo $res . "<br>";
 }
-
-// TODO имеется в виду сумма age + salary для каждой строки, по всем строкам сразу
+// TODO ИСПРАВЛЕНО имеется в виду сумма age + salary для каждой строки, по всем строкам сразу
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет лежать сумма зарплаты и возраста.<br>";
-$query = 'SELECT SUM(age + salary) AS res FROM workers';
+$query = 'SELECT SUM(age) AND SUM(salary) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
-// TODO см выше
-echo "При выборке из таблицы workers создайте новое поле res, в котором будет лежать разность зарплаты и возраста.<br>";
-$query = 'SELECT SUM(salary - age) AS res FROM workers';
-$qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
-// TODO см выше
+echo "При выборке из таблицы workers создайте новое поле res, в котором будет лежать разность зарплаты и возраста.<br>";
+$query = 'SELECT (salary - age) AS res FROM workers';
+$qw = mysqli_query($connection, $query);
+dbOutputWorkers($qw);
+
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет лежать произведение зарплаты и возраста.<br>";
 $query = 'SELECT SUM(salary*age) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers создайте новое поле res, в котором будет лежать среднее арифметическое зарплаты и возраста.<br>";
 $query = 'SELECT (salary*age/2) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "Выберите из таблицы workers все записи, в которых сумма дня и месяца меньше 10-ти.<br>";
 $query = 'SELECT * FROM workers AS res WHERE (MONTH(date) + DAY(date))<10 ';
@@ -606,95 +516,63 @@ dbOutputWorkers($qw);
 echo "<br> При выборке из таблицы workers получите первые 5 символов поля description.<br>";
 $query = 'SELECT LEFT(description,5) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 
 echo "При выборке из таблицы workers получите последние 5 символов поля description.<br>";
 $query = 'SELECT RIGHT(description,5) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers получите из поля description символы со второго по десятый.<br>";
 $query = 'SELECT SUBSTRING(description,2,10) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 //На UNION
 echo "<br>Даны две таблицы: таблица category и таблица sub_category с полями id и name. Достаньте одним запросом названия категорий и подкатегорий.<br>";
 $query = 'SELECT name FROM category UNION SELECT name FROM sub_category';
-//$qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['name'];
-    echo $res . "<br>";
-}
+$qw = mysqli_query($connection, $query);
+dbOutputWorkers($qw);
 
 //На CONCAT, CONCAT_WS
 echo "При выборке из таблицы workers создайте новое поле res, в котором будут лежать одновременно зарплата и возраст (слитно).<br>";
 $query = 'SELECT CONCAT(salary,age) AS res FROM workers';
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers создайте новое поле res, в котором будут лежать одновременно зарплата и возраст (слитно), а после возраста будут идти три знака '!'.<br>";
 $query = "SELECT CONCAT(salary,age,'!!!') AS res FROM workers";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers создайте новое поле res, в котором будут лежать одновременно зарплата и возраст через дефис.<br>";
 $query = "SELECT CONCAT_WS('-',salary,age) AS res FROM workers";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers получите первые 5 символов логина и добавьте троеточие.<br>";
 //(взла 3, чтобы не менять логины)
 $query = "SELECT CONCAT(LEFT(login,3),'...') AS res FROM workers";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 //На GROUP BY
 echo "<br>Найдите самые маленькие зарплаты по группам возрастов (для каждого возраста свою минимальную зарплату).<br>";
 $query = "SELECT MIN(salary) AS res FROM workers GROUP BY age";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "Найдите самый большой возраст по группам зарплат (для каждой зарплаты свой максимальный возраст).<br>";
 $query = "SELECT MAX(age) AS res FROM workers GROUP BY salary";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
+
 //На GROUP_CONCAT
 echo "Выберите из таблицы workers уникальные возраста так, чтобы для каждого возраста было поле res, в котором будут лежать через дефис id записей с таким возрастом.<br>";
 $query = "SELECT GROUP_CONCAT(id SEPARATOR '-')  AS res FROM workers GROUP BY age";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['res'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 //На подзапросы
 echo "<br>Выберите из таблицы workers все записи, зарплата в которых больше средней зарплаты.<br>";
@@ -721,56 +599,36 @@ dbOutputWorkers($qw);
 echo "При выборке из таблицы workers создайте новое поле max, в котором будет лежать максимальное значение зарплаты для возраста 25 лет.<br>";
 $query = "SELECT MAX(salary)  AS max FROM workers WHERE age=23";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['max'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers создайте новое поле avg, в котором будет лежать деленная на 2 разница между максимальным значением возраста и минимальным значением возраста в во всей таблице.<br>";
 $query = "SELECT (SELECT (MAX(age) - MIN(age))/2 FROM workers) AS avg";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['avg'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 echo "При выборке из таблицы workers создайте новое поле avg, в котором будет лежать деленная на 2 разница между максимальным значением зарплаты и минимальным значением зарплаты для возраста 25 лет.<br>";
 $query = "SELECT (SELECT (MAX(salary) - MIN(salary))/2 FROM workers WHERE age = 23) AS avg";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $res = $mass['avg'];
-    echo $res . "<br>";
-}
+dbOutputWorkers($qw);
 
 //На JOIN
 echo "<br>Даны две таблицы: таблица category с полями id и name и таблица page с полями id, name и category_id. Достаньте одним запросом все страницы вместе с их категориями.<br>";
-$query = "SELECT page.id as pageid, page.name as pagename, page.category_id as catid, category.name as name
+$query = "SELECT page.id as pageid, page.name as pagename, category.name as name
 FROM page
 INNER JOIN category ON page.category_id=category.id";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $id = $mass['pageid'];
-    $res = $mass['pagename'];
-    $name = $mass['name'];
-    echo $id . ' ' . $res . ' ' . $name . "<br>";
-}
+dbOutputPages($qw);
 
 echo "Даны 3 таблицы: таблица category с полями id и name, таблица sub_category с полями id и name и таблица page с полями id, name и sub_category_id. Достаньте одним запросом все страницы вместе с их подкатегориями и категориями.<br>";
-$query = "SELECT page.id as pageid, page.name as pagename, page.category_id as catid, category.name as name, sub_category.name as subname, sub_category.id
+$query = "SELECT page.name as pagename,  category.name as name, sub_category.name as subname
 FROM page
 LEFT JOIN category ON page.category_id=category.id LEFT JOIN sub_category ON page.category_id=sub_category.id";
 $qw = mysqli_query($connection, $query);
-while ($mass = mysqli_fetch_array($qw)) {
-    $id = $mass['pageid'];
-    $res = $mass['pagename'];
-    $name = $mass['name'];
-    $subname = $mass['subname'];
-    echo $id . ' ' . $res . ' ' . $name . ' ' . $subname . "<br>";
-}
+dbOutputPages($qw);
 
 //На работу с полями. Задачи данного блока следует решать SQL запросами, а не через PhpMyAdmin.
 //Создайте базы данных test1 и test2.
-$connection = mysqli_connect('mysql', 'root', 'root');
+$connection = mysqli_connect('localhost', 'root', '1234');
 $query = "CREATE DATABASE test1";
 $qw = mysqli_query($connection, $query);
 $query = "CREATE DATABASE test2";
@@ -791,15 +649,15 @@ $qw = mysqli_query($connection, $query);
 $query = "DROP TABLE table3";
 $qw = mysqli_query($connection, $query);
 //Добавьте в таблицу table1 поле status.
-// TODO так поле не добавится
-$query = "ALTER TABLE table1 ALTER COLUMN status";
+// TODO ИСПРАВЛЕНО так поле не добавится
+$query = "ALTER TABLE table1 ADD COLUMN status VARCHAR(10) NULL  AFTER date";
 $qw = mysqli_query($connection, $query);
 //Удалите из таблицы table1 поле age.
 $query = "ALTER TABLE table1 DROP COLUMN age";
 $qw = mysqli_query($connection, $query);
 //Переименуйте поле login на user_login.
-// TODO не сработает
-$query = " RENAME COLUMN login TO user_login";
+// TODO ИСПРАВЛЕНО не сработает
+$query = "alter table table1 change login user_login varchar(10) null";
 $qw = mysqli_query($connection, $query);
 //Смените типа поля salary с int на varchar(255).
 $query = "ALTER TABLE table1 CHANGE salary salary VARCHAR(255)";

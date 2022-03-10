@@ -11,7 +11,7 @@ function connectionToDb()
 
 
 
-function get($offset = '', $limit = '')
+function get($offset = '', $limit = ''):array
 {
     $connection = connectionToDb();
     if ($limit == '' and $offset == '') {
@@ -20,7 +20,7 @@ function get($offset = '', $limit = '')
         $result = mysqli_query($connection, "SELECT * from workers LIMIT $offset, $limit");
 
     }
-    return $result;
+    return mysqli_fetch_all($result);
 }
 
 function countRow(){
@@ -51,14 +51,11 @@ function create($namePost, $agePost, $salaryPost)
         echo "Ошибка: " . mysqli_error($connection);
     }
 }
-if (isset($_POST["workerName"]) && isset($_POST["workerAge"]) && isset($_POST["workerSalary"])) {
-    create($_POST["workerName"], $_POST["workerAge"], $_POST["workerSalary"]);
-}
 
-function getById($id){
+function getById($id):array{
     $connection = connectionToDb();
     $result = mysqli_query($connection, "SELECT * from workers WHERE id=$id");
-    return $result;
+    return mysqli_fetch_array($result);
 }
 
 function update($id, $namePost, $agePost, $salaryPost){
@@ -68,17 +65,3 @@ function update($id, $namePost, $agePost, $salaryPost){
     return $qw;
 }
 
-if (isset($_POST["changeName"]) && isset($_POST["changeAge"]) && isset($_POST["changeSalary"])) {
-    $id = $_SESSION['id'];
-    $connection = connectionToDb();
-    $namePost = mysqli_real_escape_string($connection, $_POST["changeName"]);
-    $agePost = mysqli_real_escape_string($connection, $_POST["changeAge"]);
-    $salaryPost = mysqli_real_escape_string($connection, $_POST["changeSalary"]);
-    $qw = update($id, $namePost, $agePost, $salaryPost);
-    if($qw){
-        $new_url = 'index.php';
-        header('Location: ' . $new_url);
-    } else{
-        http_response_code(404);
-    }
-}

@@ -1,10 +1,6 @@
 <?php
-include 'code.php';
-
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $qw = deleteFromDb($id);
-}
+include 'deleteCode.php';
+/** @var $qw bool|null */
 ?>
 <!DOCTYPE html>
 <html lang="en">

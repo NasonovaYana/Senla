@@ -1,20 +1,13 @@
 <?php
-include 'code.php';
+include 'indexCode.php';
+/** @var $pageCount int|null */
+/** @var $limit int|null */
+/** @var $page int|null */
+/** @var $nav int|null */
+/** @var $page int|null */
+/** @var $num int|null */
+/** @var $workers array|null */
 
-///** @var $connection  Object|null */
-
-$limit = 2;
-$result = get();
-$pageCount = countRow();
-//$pageCount = mysqli_num_rows($result);
-$pageCount = round($pageCount / $limit);
-if (isset($_GET['pageCurrent'])) {
-    $nav = $_GET['pageCurrent'];
-} else {
-    $nav = 0;
-}
-$nav = intval($nav);
-//include "delete.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,23 +40,18 @@ for ($i = 1; $i <= $pageCount; $i++):
         <td>Зарплата</td>
     </tr>
     <?php
-    if (!isset($_GET['pageCurrent'])) {
-        $page = 0;
-    } else {
-        $page = $_GET['pageCurrent'] * $limit - $limit;
-    }
-    $num = $page + 2;
-    $result = get($page,$num);
-    while ($workers = mysqli_fetch_array($result)):?>
-        <tr>
-            <td><p><b><?= $workers['name'] ?></b></p></td>
-            <td><p><?= $workers['age'] ?></td>
-            <td><p><?= $workers['salary'] ?></td>
-            </p>
-            <td><a href='delete.php?id=<?= $workers['id'] ?>'>Удалить</a></td>
-            <td><a href='update.php?id=<?= $workers['id']?>'>Редактировать</a></td>
-        </tr>
-    <?php endwhile; ?>
+    //TODO ИСПРАВЛЕНО должен сразу вернуться массив
+
+    foreach ($workers as $worker):?>
+    <tr>
+        <td><p><b><?= $worker[1] ?></b></p></td>
+        <td><p><?= $worker[2] ?></td>
+        <td><p><?= $worker[3] ?></td>
+        </p>
+        <td><a href='delete.php?id=<?= $worker[0] ?>'>Удалить</a></td>
+        <td><a href='update.php?id=<?= $worker[0]?>'>Редактировать</a></td>
+    </tr>
+<?php endforeach;?>
 </table>
 <br>
 <a href="add.php">Добавить сотрудника</a>
