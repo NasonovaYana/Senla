@@ -1,7 +1,7 @@
 <?php
-$id = $_SESSION['id'];
 include 'codeDB.php';
-
+$id = $_GET['id'];
+var_dump($id);
 //TODO ИСПРАВЛЕНО вернётся одна запись, цикл не нужен,
 $workers = getById($id);
 $id = $workers['id'];

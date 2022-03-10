@@ -1,9 +1,10 @@
 <?php
-$_SESSION['id'] = $_GET['id'];
+
 include 'updateCode.php';
 /** @var $name string|null */
 /** @var $age string|null */
 /** @var $salary string|null */
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +20,7 @@ include 'updateCode.php';
 <body>
 <form method="post" action="sendUpdate.php">
     <label>Имя</label>
+    <input type="hidden" name="updateId" value="<?=$id?>">
     <input name="changeName" placeholder="Имя" value="<?= $name ?>">
     <label>Возраст</label>
     <input name="changeAge" placeholder="Возраст" value="<?= $age ?>">
