@@ -7,3 +7,5 @@ function inputCreate($name){
 if (isset($_POST["workerName"]) && isset($_POST["workerAge"]) && isset($_POST["workerSalary"])) {
     create($_POST["workerName"], $_POST["workerAge"], $_POST["workerSalary"]);
 }
+//проверять с фронта пришедшее на пустую строку
+//разделить по папкам

@@ -1,11 +1,8 @@
 <?php
 include 'indexCode.php';
 /** @var $pageCount int|null */
-/** @var $limit int|null */
 /** @var $page int|null */
 /** @var $nav int|null */
-/** @var $page int|null */
-/** @var $num int|null */
 /** @var $workers array|null */
 
 ?>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+//обязательно прописывать типы входящих переменных
 function connectionToDb()
 {
     $connection = mysqli_connect('localhost', 'root', '1234', 'workers');
@@ -11,7 +12,7 @@ function connectionToDb()
 
 
 
-function get($offset = '', $limit = ''):array
+function get($offset, $limit):array
 {
     $connection = connectionToDb();
     if ($limit == '' and $offset == '') {
@@ -26,21 +27,20 @@ function get($offset = '', $limit = ''):array
 function countRow(){
     $connection = connectionToDb();
     $qw = mysqli_query($connection, "SELECT COUNT(*) as count from workers");
-    $result = mysqli_fetch_assoc($qw)['count'];
-    return $result;
+    return mysqli_fetch_assoc($qw)['count'];
 }
 
 function deleteFromDb($id){
     $connection = connectionToDb();
     $query = "DELETE FROM workers WHERE id = $id";
-    $qw = mysqli_query($connection, $query);
-    return $qw;
+    return mysqli_query($connection, $query);
 }
 
-function create($namePost, $agePost, $salaryPost)
+//не перезаписывать переменные и не назывть их post
+function create($namePost, $agePost, $salaryPost)// name, age
 {
     $connection = connectionToDb();
-    $namePost = mysqli_real_escape_string($connection, $_POST["workerName"]);
+    $namePost = mysqli_real_escape_string($connection, $_POST["workerName"]);//prepare
     $agePost = mysqli_real_escape_string($connection, $_POST["workerAge"]);
     $salaryPost = mysqli_real_escape_string($connection, $_POST["workerSalary"]);
     $query = "INSERT INTO workers (name, age,salary) VALUES ('$namePost', $agePost, $salaryPost)";
@@ -61,7 +61,6 @@ function getById($id):array{
 function update($id, $namePost, $agePost, $salaryPost){
     $connection = connectionToDb();
     $query = "UPDATE workers SET name='$namePost', age=$agePost ,salary=$salaryPost where id=$id";
-    $qw = mysqli_query($connection, $query);
-    return $qw;
+    return mysqli_query($connection, $query);
 }
 

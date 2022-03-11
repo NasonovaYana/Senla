@@ -1,5 +1,6 @@
 <?php
-
+$id = $_GET['id'];
+var_dump($id);
 include 'updateCode.php';
 /** @var $name string|null */
 /** @var $age string|null */
