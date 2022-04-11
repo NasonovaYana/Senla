@@ -6,7 +6,10 @@ use Modules\Order;
 use Modules\Cart;
 use Products\Car;
 
-spl_autoload_register();
+spl_autoload_register( function($name){
+    include $name.".php";
+});
+
 $myCar = new Car("красная", 30);
 
 $myCar->setPrice(1500000);

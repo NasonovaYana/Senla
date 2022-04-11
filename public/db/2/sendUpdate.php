@@ -1,7 +1,9 @@
 <?php
+//убрать функции mysqli в codeDB
 include 'codeDB.php';
-
-$id = $_POST["updateId"];
+if (isset($_POST['updateId'])){
+$id = $_POST["updateId"];}
+//обязательна валидация
 if (isset($_POST["changeName"]) && isset($_POST["changeAge"]) && isset($_POST["changeSalary"])) {
     $connection = connectionToDb();
     $namePost = mysqli_real_escape_string($connection, $_POST["changeName"]);

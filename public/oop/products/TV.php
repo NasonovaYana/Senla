@@ -1,11 +1,11 @@
 <?php
 
 namespace Products;
-use \Modules\Products;
+use Modules\Products;
 
-class TV extends \Modules\Products
+class TV extends Products
 {
-    private $isColorful;
+    private bool $isColorful;
 
     public function __construct(bool $isColorful)
     {

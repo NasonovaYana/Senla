@@ -9,7 +9,7 @@ $name = $workers['name'];
 $age = $workers['age'];
 $salary = $workers['salary'];
 
-if(!isset($name)){
+if(is_null($workers)){
     http_response_code(404);
     exit();
 }

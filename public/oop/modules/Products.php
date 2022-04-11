@@ -6,12 +6,12 @@ namespace Modules;
 class Products implements PricePosition
 {
     public string $title;
-    public int $price;
+    private int $price;
     private int $productId;
 
     public function getPricePosition(): string
     {
-        return $this->productId . ' ' . $this->title . ' ' . $this->price;
+        return $this->productId . ' ' . $this->title . ' ' . $this->getPrice();
     }
 
     public function setProductId($productId)
@@ -24,7 +24,7 @@ class Products implements PricePosition
         return $this->price;
     }
 
-    public function setPrice($price)
+    public function setPrice($price):void
     {
         $this->price = $price;
     }

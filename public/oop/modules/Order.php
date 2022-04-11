@@ -24,14 +24,14 @@ class Order
         }
     }
 
-    public function orderList()
+    public function orderList():void
     {
         echo "Заказ номер " . $this->orderId . "<br>";
         $orderList = "";
         $list = $this->orderCart;
         $count = $list->productCount;
         foreach ($list->products as $elem) {
-            $orderList .= "Наименование товара:<br>" . $elem->title . "<br>Характеристика:<br>" . $elem->color . "<br>Цена:<br>" . $elem->price . "<br><br>";
+            $orderList .= "Наименование товара:<br>" . $elem->title . "<br>Характеристика:<br>" . $elem->color . "<br>Цена:<br>" . $elem->getPrice() . "<br><br>";
         }
         echo "Количество товаров в заказе: $count<br><br>$orderList";
     }

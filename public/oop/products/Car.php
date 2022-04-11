@@ -5,9 +5,9 @@ use \Modules\Products;
 
 class Car extends Products
 {
-    public $color;
-    public $fuelTankCapacity;
-    private $fuelBalance;
+    public string $color;
+    public int $fuelTankCapacity;
+    private int $fuelBalance;
 
     public function __construct($color, $fuelTankCapacity)
     {
@@ -16,7 +16,7 @@ class Car extends Products
         $this->fuelBalance = $fuelTankCapacity;
     }
 
-    public function ride()
+    public function ride():void
     {
         $this->fuelBalance--;
         echo "Остаток топлива: " . $this->fuelBalance;

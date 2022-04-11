@@ -13,7 +13,7 @@ class Pen extends Products
         $this->color = $color;
     }
 
-    public function write($text)
+    public function write($text):void
     {
         echo "($this->color):$text<br>";
     }

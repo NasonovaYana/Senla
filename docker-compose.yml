@@ -33,3 +33,4 @@ services:
         restart: always
         ports:
             - "8095:8080"
+
